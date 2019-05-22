@@ -1,0 +1,304 @@
+
+" Startup {{{
+	filetype indent plugin on
+	"augroup vimrcEx
+	au!
+
+	autocmd FileType text setlocal textwidth=78
+	augroup END
+
+	" vim 文件折叠方式为 marker
+	augroup ft_vim
+	    au!
+
+	    autocmd FileType vim setlocal foldmethod=marker
+
+	    " 打开文件总是定位到上次编辑的位置
+	    autocmd BufReadPost *
+	      \ if line("'\"") > 1 && line("'\"") <= line("$") |
+	      \   exe "normal! g`\"" |
+	      \ endif
+
+	    augroup END
+	augroup END
+" }}}
+
+" General {{{
+	set nocompatible
+	set nobackup
+	set noswapfile
+	set history=1024
+	set autochdir
+	set whichwrap=b,s,<,>,[,]
+	set nobomb
+	set backspace=indent,eol,start whichwrap+=<,>,[,]
+	" Vim 的默认寄存器和系统剪贴板共享
+	set clipboard+=unnamed
+	" 设置 alt 键不映射到菜单栏
+	set winaltkeys=no
+" }}}
+"编码方式
+" Lang & Encoding {{{
+	set fileencodings=utf-8,gbk2312,gbk,gb18030,cp936
+	"set encoding=ANSI
+	"set langmenu=ANSI
+	"let $LANG = 'en_US.UTF-8'
+	"language messages zh_CN.UTF-8
+" }}}
+
+" GUI {{{
+	"默认主题
+	colorscheme Tomorrow-Night
+	"窗口大小
+	set lines=26 columns=100
+	"设置字体
+	set guifont=Consolas:h13:cANSI
+	" 分割出来的窗口位于当前窗口下边/右边
+	set splitbelow
+	set splitright
+	"不显示工具/菜单栏
+	set guioptions-=T
+	"set guioptions-=m
+	"set guioptions-=L
+	set guioptions-=r
+	set guioptions-=b
+	"source "PluginRUNTIME/delmenu.vim
+	"source "PluginRUNTIME/menu.vim
+	set cursorline
+	set hlsearch
+	set number
+
+	" 使用内置 tab 样式而不是 gui
+	set guioptions-=e
+	"set nolist
+	"set listchars=trail:·,extends:>,precedes:<
+
+
+	set statusline=%f
+	set statusline+=%m
+	set statusline+=\ %{fugitive#head()}
+	set statusline+=%=
+	set statusline+=%{''.(&fenc!=''?&fenc:&enc).''}
+	set statusline+=/
+	set statusline +=%{&ff}            "file format
+	set statusline+=\ -\      " Separator
+	set statusline+=%l/%L
+	set statusline+=[%p%%]
+	set statusline+=\ -\      " Separator
+	set statusline +=%1*\ %y\ %*
+
+" }}}
+
+" Format {{{
+	set autoindent
+	set smartindent
+	set tabstop=4
+	set shiftwidth=4
+	set softtabstop=4
+	set expandtab
+	set foldmethod=indent
+	syntax on
+" }}}
+
+" Keymap {{{
+	let mapleader=","
+
+	nmap <leader>s :source $MYVIMRC<cr>
+	nmap <leader>e :e $MYVIMRC<cr>
+	nmap <leader>tn :tabnew<cr>
+	nmap <leader>tc :tabclose<cr>
+	nmap <leader>th :tabp<cr>
+	nmap <leader>tl :tabn<cr>
+
+	" IDE like delete
+	inoremap <C-BS> <Esc>bdei
+
+	nnoremap vv ^vg_
+	" 转换当前行为大写
+	inoremap <C-u> <esc>mzgUiw`za
+	" 命令模式下的行首尾
+	cnoremap <C-a> <home>
+	cnoremap <C-e> <end>
+
+	nnoremap <F2> :setlocal number!<cr>
+	nnoremap <leader>w :set wrap!<cr>
+
+	imap <C-v> "+gP
+	vmap <C-c> "+y
+	vnoremap <BS> d
+	vnoremap <C-C> "+y
+	vnoremap <C-Insert> "+y
+	imap <C-V> "+gP
+	map <S-Insert> "+gP
+	cmap <C-V> <C-R>+
+	cmap <S-Insert> <C-R>+
+
+	exe 'inoremap <script> <C-V>' paste#paste_cmd['i']
+	exe 'vnoremap <script> <C-V>' paste#paste_cmd['v']
+
+	" 打开当前目录 windows
+	nmap <silent> <leader>ex :!start explorer %:p:h<CR>
+
+	" 打开当前目录CMD
+	nmap <silent> <leader>cmd :!start cmd /k cd %:p:h<cr>
+	" 打印当前时间
+	nmap <F3> a<C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR><Esc>
+	" 复制当前文件/路径到剪贴板
+	nmap ,fn :let @*=substitute(expand("%"), "/", "\\", "g")<CR>
+	nmap ,fp :let @*=substitute(expand("%:p"), "/", "\\", "g")<CR>
+
+	"设置切换Buffer快捷键"
+	nnoremap <C-left> :bn<CR>
+	nnoremap <C-right> :bp<CR>
+
+" }}}
+
+
+" 移动分割窗口?
+nmap <C-j> <C-W>j
+nmap <C-k> <C-W>k
+nmap <C-h> <C-W>h
+nmap <C-l> <C-W>l
+
+" 命令模式下（M代表alt） alt+j,k,h,l 调整分割窗口大小
+nnoremap <M-j> :resize +5<cr>
+nnoremap <M-k> :resize -5<cr>
+nnoremap <M-h> :vertical resize -5<cr>
+nnoremap <M-l> :vertical resize +5<cr>
+" 插入模式移动光标 alt + 方向键
+inoremap <M-j> <Down>
+inoremap <M-k> <Up>
+inoremap <M-h> <left>
+inoremap <M-l> <Right>
+
+   " 用空格键来开关折叠
+   nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
+
+   set autoread  " 设置当文件被改动时自动载入
+
+   set completeopt=longest,menu
+   set completeopt=preview,menu "代码补全
+   set nocompatible "取消vi 兼容模式
+
+   "自动补全
+   :inoremap ( ()<ESC>i
+   :inoremap ) <c-r>=ClosePair(')')<CR>
+   :inoremap { {<CR>}<ESC>O
+   :inoremap } <c-r>=ClosePair('}')<CR>
+   :inoremap [ []<ESC>i
+   :inoremap ] <c-r>=ClosePair(']')<CR>
+   :inoremap " ""<ESC>i
+   :inoremap ' ''<ESC>i
+   function! ClosePair(char)
+       if getline('.')[col('.') - 1] == a:char
+          return "\<Right>"
+       else
+          return a:char
+       endif
+   endfunction
+
+
+   """"""""""""""""""""""""""""""""""""""""""""""""""""
+   "打开文件类型检测, 加了这句才可以用智能补全
+   filetype plugin indent on
+
+   autocmd FileType c,cpp map <buffer> <leader><space> :w<cr>:make<cr>
+
+   """"""""""""""" definition  SetTitle() """"""""""""""""""""""""""""""""""
+"
+   autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java  exec ":call SetTitle()"
+
+   func SetTitle()
+    if &filetype == 'sh'
+       call setline(1,"\#########################################################################")
+       call append(line("."), "\# File Name: ".expand("%"))
+       call append(line(".")+1, "\# Author: ims")
+       call append(line(".")+2, "\# Created Time: ".strftime("%c"))
+       call append(line(".")+3, "\#########################################################################")
+       call append(line(".")+4, "\#!/bin/bash")
+       call append(line(".")+5, "")
+    else
+        call setline(1, "/*************************************************************************")
+        call append(line("."), "    > File Name: ".expand("%"))
+        call append(line(".")+1, "    > Author: ims")
+        call append(line(".")+2, "    > Created Time: ".strftime("%c"))
+        call append(line(".")+3, " ************************************************************************/")
+        call append(line(".")+4, "")
+    endif
+
+    if &filetype == 'cpp'
+       call append(line(".")+5, "#include<iostream>")
+       call append(line(".")+6, "using namespace std;")
+       call append(line(".")+7, "")
+       call append(line(".")+8, "int main()")
+       call append(line(".")+9, "{")
+       call append(line(".")+10, "\t")
+       call append(line(".")+11, "\treturn 0;")
+       call append(line(".")+12, "}")
+    endif
+
+    if &filetype == 'c'
+        call append(line(".")+5, "#include<stdio.h>")
+        call append(line(".")+6, "")
+    endif
+
+    normal 12G"
+   endfunc
+
+   """"""""" end SetTitle()  """""""""""""""""""""""""""""""""""""""""""""""""""
+"设置python初始化部分{
+   autocmd BufNewFile *.py  exec ":call Set_py_Title()"
+   func Set_py_Title()
+       call setline(1,"\# -*- coding: UTF-8 -*-")
+       call append(line("."), "\# ***************************************************")
+       call append(line(".")+1, "\# File Name: ".expand("%"))
+       call append(line(".")+2, "\# Author: ims")
+       call append(line(".")+3, "\# Created Time: ".strftime("%c"))
+       call append(line(".")+4, "\#****************************************************")
+       call append(line(".")+5, "")
+       call append(line(".")+6, "")
+       normal 8G
+   endfunc
+"}   "<CR>:Carriage Return"
+
+
+"运行python脚本<F4>{
+   map <F4> :call Exec_py()<CR>
+	func! Exec_py()
+	exec "w"
+	exec "! python %"
+	endfunc
+"}
+
+
+"C，C++ 按F5编译运行" "<"是换行符号，之前不能有空格，
+"复制后<CR>  后面会有2个空格，要删除，不然，运行后直接回到编辑界面
+
+"<F5> 运行c/c++程序{
+ map <F5> :call RunGcc()<CR>
+      func! RunGcc()
+      exec "w"
+       if &filetype == 'c'
+       exec "!cl /EHsc % "
+       exec "! %<"
+        elseif &filetype == 'cpp'
+       exec "!cl /EHsc % "
+       exec "! %<"
+       elseif &filetype == 'java'
+       exec "!javac %"
+       exec "!java %<"
+       elseif &filetype == 'sh'
+       exec "!chmod +x %"
+       :!./%
+       endif
+   endfunc
+"}
+
+"调试C,C++ {
+   map <F8> :call Rungdb()<CR>
+   func! Rungdb()
+       exec "w"
+       exec "!g++ % -g -Wall -o %<"
+       exec "!gdb ./%<"
+   endfunc
+"}
