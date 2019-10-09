@@ -1,5 +1,5 @@
-let mapleader = "\\"
-let maplocalleader = "\\"
+let mapleader = " "
+let maplocalleader = " "
 
 "Vundle{{{
 set nocompatible              " be iMproved, required
@@ -13,6 +13,9 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'suan/vim-instant-markdown'
 call vundle#end()            " required
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
@@ -31,16 +34,16 @@ filetype plugin indent on    " required
 
 
 "YCMCFG{{{
+""swith of symtax diagnost
+let g:ycm_show_diagnostics_ui = 1
 " ycm 指定 ycm_extra_conf.py
 let g:ycm_global_ycm_extra_conf =  '~/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
 
-" 禁用syntastic来对python检查 let g:syntastic_ignore_files=[".*\.py$"] " 使用ctags生成的tags文件
 let g:ycm_collect_identifiers_from_tag_files = 1
-" 开启语义补全 " 修改对C语言的补全快捷键，默认是CTRL+space，修改为ALT+;未测出效果
-"let g:ycm_key_invoke_completion = '<M-;>' " 设置转到定义处的快捷键为ALT+G，未测出效果
-"nmap <M-g> :YcmCompleter GoToDefinitionElseDeclaration <C-R>=expand("<cword>")<CR><CR> "关键字补全
+
 "let g:ycm_seed_identifiers_with_syntax = 1 " 在接受补全后不分裂出一个窗口显示接受的项
-set completeopt-=preview
+set completeopt=preview
+let g:ycm_autoclose_preview_window_after_completion = 1
 " 让补全行为与一般的IDE一致 set completeopt=longest,menu " 不显示开启vim时检查ycm_extra_conf文件的信息
 let g:ycm_confirm_extra_conf=0
 " 每次重新生成匹配项，禁止缓存匹配项 let g:ycm_cache_omnifunc=0 " 在注释中也可以补全
@@ -56,8 +59,7 @@ let g:ycm_semantic_triggers = { 'c' : ['->', '.']}
 
 
 let g:ycm_key_list_select_completion = ['<Down>']
-"swith of symtax diagnost
-let g:ycm_show_diagnostics_ui = 0
+
 "}}}
 
 "{{{ cscope setting
@@ -223,9 +225,10 @@ function! ExecProm()
         bot 9sp runResult
         setlocal buftype=nofile bufhidden=hide noswapfile
         1s/^/\=runResu/
+        1
     endif
     if &filetype == 'cpp'
-        let compileResu = system('g++ '.expand('%').' -o '.expand('%<'))
+        let compileResu = system('g++ -std=c++11 '.expand('%').' -lpthread -o '.expand('%<'))
         let runResu=headtitle.compileResu.runResLine .system('./'.expand('%<'))
         bot 9sp runResult
         setlocal buftype=nofile bufhidden=hide noswapfile
@@ -334,9 +337,10 @@ nnoremap  <unique><localleader>u :call UpdateCscope()<cr>
     :nnoremap  <localleader>9  bve"9y
     :nnoremap  <localleader>99  bdw"9[p
     :vnoremap  <localleader>1  "1y
+    :vnoremap  <localleader>=  ggvG=
 
     :nnoremap  qa :qa<cr>
-    :nnoremap  <c-s>  :update<cr>/\t<cr>
+    :nnoremap  <c-s>  :update<cr>:%s/\t/    /g<cr>
     :inoremap  <c-s>  <esc>:update<cr>
     :nnoremap  <localleader>q :q<cr>
     :nnoremap  <localleader>qq :q!<cr>
@@ -460,4 +464,4 @@ nnoremap  <localleader>df :bufdo diffs<cr>
 ""    autocmd!
 ""    autocmd BufWrite * :
 ""augroup END
-
+set noswapfile
