@@ -1,6 +1,7 @@
 let mapleader = " "
 let maplocalleader = " "
 
+set t_Co=256
 "Vundle{{{
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -380,7 +381,7 @@ nnoremap  <unique><localleader>u :call UpdateCscope()<cr>
 "}}}
 
 "{{{ cscope cs find
-    :nnoremap  <c-@> :cs f 
+    :nnoremap  <c-@> :cs f  
     :nnoremap  <localleader>2c byw:cs f c <c-r>0
     :nnoremap  <localleader>2s byw:cs f s <c-r>0
     :nnoremap  <localleader>2t byw:cs f t <c-r>0
