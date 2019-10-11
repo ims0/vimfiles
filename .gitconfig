@@ -1,0 +1,23 @@
+[user]
+    name = ims
+    email = optimizes@126.com
+[alias]
+    co = checkout
+    br = branch
+    ci = commit
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset ---%C(yellow)%d%Creset %s  %Cgreen(%cr)' --abbrev-commit
+    st = status
+
+    res0= reset HEAD
+    res1= reset HEAD^
+    reh0= reset --hard HEAD
+    reh1= reset --hard HEAD^
+
+    d = diff --name-only
+    dv = difftool
+    patch = format-patch HEAD^
+[diff]
+    tool = vimdiff
+[difftool]
+    prompt = false
+    trustExitCode = true
