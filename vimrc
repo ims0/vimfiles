@@ -1,40 +1,38 @@
-let mapleader = " "
 let maplocalleader = " "
+set nocompatible
 
-set t_Co=256
 "Vundle{{{
-set nocompatible              " be iMproved, required
-filetype off                  " required
-" set the runtime path to include Vundle and initialize
+"Set up Vundle:
+"git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-" let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-
+Plugin 'vim-scripts/cscope.vim'
+Plugin 'fholgado/minibufexpl.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'mbbill/code_complete'
 Plugin 'tpope/vim-fugitive'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'godlygeek/tabular'
+Plugin 'zivyangll/git-blame.vim'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'suan/vim-instant-markdown'
+Plugin 'Valloric/YouCompleteMe'
 call vundle#end()            " required
 filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
+
 " Brief help
 " :PluginList       - lists configured plugins
 " :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
 " :PluginSearch foo - searches for foo; append `!` to refresh local cache
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-:nnoremap  <localleader>in :PluginInstall    <cr>
-:nnoremap  <localleader>li :PluginList      <cr>
+nnoremap  <localleader>in :PluginInstall    <cr>
+nnoremap  <localleader>li :PluginList      <cr>
 "}}}
 
-
-"YCMCFG{{{
+set t_Co=256 "number of colors"
+"YcmCfg{{{
 ""swith of symtax diagnost
 let g:ycm_show_diagnostics_ui = 1
 " ycm 指定 ycm_extra_conf.py
@@ -58,12 +56,10 @@ let g:ycm_semantic_triggers = { 'c' : ['->', '.']}
 "The g:ycm_key_list_select_completion option
 "This option controls the key mappings used to select the first completion string. Invoking any of them repeatedly cycles forward through the completion list.
 
-
 let g:ycm_key_list_select_completion = ['<Down>']
-
 "}}}
 
-"{{{ cscope setting
+"cscope setting{{{ 
 if has("cscope")
   set csprg=/usr/bin/cscope-C
   ""set csto=1
@@ -76,16 +72,14 @@ if has("cscope")
   set csverb
 endif
 
-nnoremap  <localleader>a :cs add cscope.out<cr>
 "}}}
 
 
 if has("syntax")
-syntax on
+    syntax on
 endif
-set nocompatible "取消vi 兼容模式
 
-"{{{ paste mode f6,f7
+"paste mode{{{
     :map <F6> :set paste<CR>
     :map <F7> :set nopaste<CR>
     :imap <F6> <C-O>:set paste<CR>
@@ -93,7 +87,7 @@ set nocompatible "取消vi 兼容模式
     :set pastetoggle=<F6>
 "}}}
 
-"{{{ fold
+"fold{{{ 
 ""    set foldenable " 开始折叠
 ""    set foldmethod=syntax " 设置语法折叠
     set foldcolumn=0 " 设置折叠区域的宽度
@@ -105,13 +99,13 @@ set nocompatible "取消vi 兼容模式
 
 ""    autocmd BufRead * :
 "}}}
-set mouse=v "可视模式
 set mouse=a     " Enable mouse usage (all modes) 启用鼠标方便翻页，移动光标
 set diffopt=filler,context:4
 set showmatch           " Show matching brackets.
 "set ignorecase     " Do case insensitive matching
 "set smartcase      " Do smart case matching
 
+set noswapfile
 set nobackup        "no backup
 set autoread  " 设置当文件被改动时自动载入
 set autowrite       " Automatically save before commands like :next and :make
@@ -145,11 +139,6 @@ set completeopt=preview,menu "代码补全
     endif
     endfunction
 "}}} "end--------------------------------
-
-
-
-"----- 打开文件类型检测-----------------
-filetype plugin indent on
 
 au BufNewFile,BufRead *.h set filetype=h
 "start---------- definition  SetTitle() ------------------------------------
@@ -234,18 +223,21 @@ function! ExecProm()
         bot 9sp runResult
         setlocal buftype=nofile bufhidden=hide noswapfile
         1s/^/\=runResu/
+        1
     endif
     if &filetype == 'python'
         let runResu=runResLine .system('python3 '.expand('%'))
         bot 9sp runResult
         setlocal buftype=nofile bufhidden=hide noswapfile
         1s/^/\=runResu/
+        1
     endif
     if &filetype == 'sh'
         let runResu=runResLine .system('sh '.expand('%'))
         bot 9sp runResult
         setlocal buftype=nofile bufhidden=hide noswapfile
         1s/^/\=runResu/
+        1
     endif
 
 endfunction
@@ -255,24 +247,22 @@ nnoremap  <localleader>ll :call ExecProm()<cr>
 autocmd BufNewFile,BufRead,BufWrite * :syntax match operators "\<compile result\>"
 autocmd BufNewFile,BufRead,BufWrite * :syntax match operators "\<run result\>"
 hi operators ctermfg = DarkCyan
+"exit run shell for long time{
+function! RunShell()
+    :set noautochdir<cr>
+    :!sh %
+endfunction
+nnoremap  <localleader>r :call RunShell()<cr>
+"}
 
 
-
-"{{{ CtrlP Settings
-    " two setting can prevent change of ctrlp_working_path
-    set noautochdir
-    let g:ctrlp_working_path_mode = 0
-"}}}
-
-"{{{ map ctags,srcExpl,NerdTree:F8,F9,F10,F12
+"{{{ map ctags,srcExpl,NerdTree:F9,F10,F12
     " Open and close the taglist.vim separately
     nnoremap <F9>  :TrinityToggleTagList<CR>
     " Open and close the srcexpl.vim separately
     nnoremap <F10> :TrinityToggleSourceExplorer<CR>
     " Open and close the NERD_tree.vim separately
     nnoremap <F12>  :TrinityToggleNERDTree<CR>
-    " Open and close all the three plugins on the same time
-    "nnoremap <F12> :TrinityToggleAll<CR>
 "}}}
 "NERDtree{{{
     " 改变nerdtree的箭头
@@ -293,7 +283,7 @@ vnoremap  y    "+y
 vnoremap  p    "+p
 "}
 
-"termdebug{{{
+"term debug{{{
 function! TermdebugAdd()
     exe "packadd termdebug"
     :Termdebug 
@@ -301,20 +291,13 @@ endfunction
 nnoremap  <localleader>d :call TermdebugAdd()<cr>
 "}}}
 "
-""gdb {{{
+"iconv{{{
 function! Iconv()
     let s=system('iconv -f gbk -t utf-8 '.expand('%').' -o '.expand('%'))
 endfunction
 nnoremap  <localleader>gbk :call Iconv()<cr>
 "}}}
 "
-"run shell{
-function! RunShell()
-    :set noautochdir<cr>
-    :!sh %
-endfunction
-nnoremap  <localleader>r :call RunShell()<cr>
-"}
 
 "Update Cscope{
 function! UpdateCscope()
@@ -349,7 +332,7 @@ nnoremap  <unique><localleader>u :call UpdateCscope()<cr>
     :nnoremap  <localleader>wa :wa<cr>
     :nnoremap  <localleader>qa :qa<cr>
     :nnoremap  <localleader>s  :%s/
-    :nnoremap  <Leader>b :<C-u>call gitblame#echo()<CR> 
+    :nnoremap  <localleader>b :<C-u>call gitblame#echo()<CR> 
     :nnoremap  <localleader>sw  :%s/<c-r><c-w>/
     :nnoremap  <localleader>sh  :bot term ++rows=8 bash<cr>
     :nnoremap  <localleader>sc :ConqueTerm bash<cr>
@@ -436,8 +419,6 @@ endfunction
 "}}}
 
 "{{{ Colors Settings
-    colorscheme imscolo
-    set guifont=Consolas:h13:cANSI
 "}}}
 
 let g:indentLine_color_term = 24
@@ -449,8 +430,6 @@ let g:indentLine_leadingSpaceEnabled = 1
 nnoremap yf : let @f=expand("%:t")<CR>
 nnoremap yp : let @p=expand("%:p")<CR>
 
-set laststatus=2
-"bot ter bash
 "命令行文件路径补全
 set wildmode=list:longest
 "diff setting{{{
@@ -459,10 +438,6 @@ nnoremap  <localleader>df :bufdo diffs<cr>
 "}}}
 
 
+colorscheme imscolo
+set laststatus=2
 
-
-""augroup update_cscope
-""    autocmd!
-""    autocmd BufWrite * :
-""augroup END
-set noswapfile
