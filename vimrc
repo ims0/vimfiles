@@ -61,15 +61,17 @@ let g:ycm_key_list_select_completion = ['<Down>']
 
 "cscope setting{{{ 
 if has("cscope")
-  set csprg=/usr/bin/cscope-C
-  ""set csto=1
-  set cst
-  set nocsverb
-  " add any database in current directory
-  if filereadable("cscope.out")
-      cs add cscope.out 
-  endif
-  set csverb
+    if filereadable("/usr/bin/cscope-C")
+        set csprg=/usr/bin/cscope-C
+    else
+        set csprg=cscope
+    endif
+    set cscopetag
+    set nocscopeverbose
+    if filereadable("cscope.out")
+        cs add cscope.out 
+    endif
+    set cscopeverbose
 endif
 
 "}}}
@@ -88,18 +90,10 @@ endif
 "}}}
 
 "fold{{{ 
-""    set foldenable " 开始折叠
-""    set foldmethod=syntax " 设置语法折叠
-    set foldcolumn=0 " 设置折叠区域的宽度
-    setlocal foldlevel=0 " 设置折叠层数
-    "set foldopen=all     "光标到达折叠快时，自动打开
-""    set foldclose=all    " 离开代码块后，自动折叠
-    " 用空格键来开关折叠
-""    nnoremap <space> zi
-
-""    autocmd BufRead * :
+    set foldcolumn=0
+    setlocal foldlevel=0
 "}}}
-set mouse=a     " Enable mouse usage (all modes) 启用鼠标方便翻页，移动光标
+set mouse=a     " Enable mouse usage (all modes)
 set diffopt=filler,context:4
 set showmatch           " Show matching brackets.
 "set ignorecase     " Do case insensitive matching
@@ -107,21 +101,20 @@ set showmatch           " Show matching brackets.
 
 set noswapfile
 set nobackup        "no backup
-set autoread  " 设置当文件被改动时自动载入
+set autoread 
 set autowrite       " Automatically save before commands like :next and :make
-set hidden      " Hide buffers when they are abandoned
+set hidden          " Hide buffers when they are abandoned
 
-set nu           "show line number
+set number           "show line number
 set ruler            "show cursor site in right below
-set tabstop=4      " 统一缩进为4
+set tabstop=4      
 set shiftwidth=4
-set incsearch " 输入字符串就显示匹配点
-set hlsearch " 高亮度搜寻
-set autoindent    "自动缩进
+set incsearch       " The screen will be updated often,with typing pattern
+set hlsearch        " highlight all its matches.
+set autoindent 
 set cindent
-
 set completeopt=longest,menu
-set completeopt=preview,menu "代码补全
+
 "{{{start----- 自动补全  -----------------
     :inoremap ( ()<ESC>i
     :inoremap ) <c-r>=ClosePair(')')<CR>
@@ -278,11 +271,16 @@ nnoremap  <localleader>r :call RunShell()<cr>
     " 显示书签列表
     "let NERDTreeShowBookmarks=1
 "}}}
-"Sys clipboard{
-vnoremap  y    "+y 
-vnoremap  p    "+p
+"map sys clipboard{
+if has("clipboard")
+    vnoremap  y    "+y 
+    vnoremap  p    "+p
+endif
 "}
-
+"
+nnoremap yf : let @f=expand("%:t")<CR>
+nnoremap yp : let @p=expand("%:p")<CR>
+set clipboard+=unnamedplus
 "term debug{{{
 function! TermdebugAdd()
     exe "packadd termdebug"
@@ -318,45 +316,45 @@ nnoremap  <unique><localleader>u :call UpdateCscope()<cr>
 
 "my shortcut key{{{
 "map reg 9"
-    :nnoremap  <localleader>9  bve"9y
-    :nnoremap  <localleader>99  bdw"9[p
-    :vnoremap  <localleader>1  "1y
-    :vnoremap  <localleader>=  ggvG=
+nnoremap  <localleader>9  bve"9y
+nnoremap  <localleader>99  bdw"9[p
+vnoremap  <localleader>1  "1y
+vnoremap  <localleader>=  ggvG=
 
-    :nnoremap  qa :qa<cr>
-    :nnoremap  <c-s>  :update<cr>:%s/\t/    /g<cr>
-    :inoremap  <c-s>  <esc>:update<cr>
-    :nnoremap  <localleader>q :q<cr>
-    :nnoremap  <localleader>qq :q!<cr>
-    :nnoremap  <localleader>wq :wq<cr>
-    :nnoremap  <localleader>wa :wa<cr>
-    :nnoremap  <localleader>qa :qa<cr>
-    :nnoremap  <localleader>s  :%s/
-    :nnoremap  <localleader>b :<C-u>call gitblame#echo()<CR> 
-    :nnoremap  <localleader>sw  :%s/<c-r><c-w>/
-    :nnoremap  <localleader>sh  :bot term ++rows=8 bash<cr>
-    :nnoremap  <localleader>sc :ConqueTerm bash<cr>
-    :nnoremap  <localleader>shs :ConqueTermSplit bash<cr>
-    :nnoremap  <localleader>shv :ConqueTermVSplit bash<cr>
-    :nnoremap  <localleader>sht :ConqueTermTab bash<cr>
-    :nnoremap  <localleader>t :%s/\t/    /g<cr>
-    :nnoremap  <localleader><Space> :%s/ *$//g<cr>
-    
-    :nnoremap  <localleader>y  byw
-    :nnoremap  <localleader>yy "+yy<cr>
-    :nnoremap  <localleader>yw "+yw<cr>
-    :nnoremap  <localleader>/ :/\<\>
-    :nnoremap  <localleader>? :?\<\>
-    :inoremap <c-d> <esc>ddo
-    :nnoremap <localleader>ev :vsplit$MYVIMRC<cr>
-    :nnoremap <localleader>ms :vsplit $VIMRUNTIME/colors/imscolo.vim<cr>
-    :nnoremap <localleader>sv :source$MYVIMRC<cr>
-    :inoremap jk <esc>
-    :nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
-    :nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
-    :nnoremap <leader>\ : , s/^/\/\//g
-    :autocmd FileType cpp nnoremap <buffer> <localleader>/ I//<esc>
-    :autocmd FileType c nnoremap <buffer> <localleader>/ I//<esc>
+nnoremap  qa :qa<cr>
+nnoremap  <c-s>  :update<cr>:%s/\t/    /g<cr>
+inoremap  <c-s>  <esc>:update<cr>
+nnoremap  <localleader>q :q<cr>
+nnoremap  <localleader>qq :q!<cr>
+nnoremap  <localleader>wq :wq<cr>
+nnoremap  <localleader>wa :wa<cr>
+nnoremap  <localleader>qa :qa<cr>
+nnoremap  <localleader>s  :%s/
+nnoremap  <localleader>b :<C-u>call gitblame#echo()<CR> 
+nnoremap  <localleader>sw  :%s/<c-r><c-w>/
+nnoremap  <localleader>sh  :bot term ++rows=8 bash<cr>
+nnoremap  <localleader>sc :ConqueTerm bash<cr>
+nnoremap  <localleader>shs :ConqueTermSplit bash<cr>
+nnoremap  <localleader>shv :ConqueTermVSplit bash<cr>
+nnoremap  <localleader>sht :ConqueTermTab bash<cr>
+nnoremap  <localleader>t :%s/\t/    /g<cr>
+nnoremap  <localleader><Space> :%s/ *$//g<cr>
+
+nnoremap  <localleader>y  byw
+nnoremap  <localleader>yy "+yy<cr>
+nnoremap  <localleader>yw "+yw<cr>
+nnoremap  <localleader>/ :/\<\>
+nnoremap  <localleader>? :?\<\>
+inoremap <c-d> <esc>ddo
+nnoremap <localleader>ev :vsplit$MYVIMRC<cr>
+nnoremap <localleader>ms :vsplit $VIMRUNTIME/colors/imscolo.vim<cr>
+nnoremap <localleader>sv :source$MYVIMRC<cr>
+inoremap jk <esc>
+nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
+nnoremap <leader>\ : , s/^/\/\//g
+autocmd FileType cpp nnoremap <buffer> <localleader>/ I//<esc>
+autocmd FileType c nnoremap <buffer> <localleader>/ I//<esc>
 "}}}
 "reset win size {{{ 
     vnoremap , <c-w>3< 
@@ -418,17 +416,11 @@ endfunction
     ""let g:miniBufExplUseSingleClick = 1
 "}}}
 
-"{{{ Colors Settings
-"}}}
 
 let g:indentLine_color_term = 24
-set clipboard+=unnamedplus
 let g:indentLine_leadingSpaceChar = '·'
 let g:indentLine_leadingSpaceEnabled = 1
 
-"当前文件名
-nnoremap yf : let @f=expand("%:t")<CR>
-nnoremap yp : let @p=expand("%:p")<CR>
 
 "命令行文件路径补全
 set wildmode=list:longest
