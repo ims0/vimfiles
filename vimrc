@@ -433,3 +433,12 @@ nnoremap  <localleader>df :bufdo diffs<cr>
 colorscheme imscolo
 set laststatus=2
 
+func! Handler(channel, msg)
+    echo a:msg
+endfunc
+
+func! GetDate()
+    call job_start([ './tem.sh'], {'callback': 'Handler'})
+endfunc
+
+nnoremap <F3> :call GetDate()<cr>
