@@ -30,35 +30,20 @@ filetype plugin indent on    " required
 nnoremap  <localleader>in :PluginInstall    <cr>
 nnoremap  <localleader>li :PluginList      <cr>
 "}}}
-"YcmCfg{{{
-""swith of symtax diagnost
-let g:ycm_show_diagnostics_ui = 1
-" ycm 指定 ycm_extra_conf.py
-let g:ycm_global_ycm_extra_conf =  '~/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
-
+"Ycm Config{{{
+let g:ycm_show_diagnostics_ui = 1  "switch of symtax diagnostic
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
 let g:ycm_collect_identifiers_from_tag_files = 1
-
-"let g:ycm_seed_identifiers_with_syntax = 1 " 在接受补全后不分裂出一个窗口显示接受的项
-set completeopt=preview
 let g:ycm_autoclose_preview_window_after_completion = 1
-" 让补全行为与一般的IDE一致 set completeopt=longest,menu " 不显示开启vim时检查ycm_extra_conf文件的信息
 let g:ycm_confirm_extra_conf=0
-" 每次重新生成匹配项，禁止缓存匹配项 let g:ycm_cache_omnifunc=0 " 在注释中也可以补全
 let g:ycm_complete_in_comments=0
-" 输入第一个字符就开始补全 let g:ycm_min_num_of_chars_for_completion=1 " 错误标识符
 let g:ycm_error_symbol='>>'
-" 警告标识符 let g:ycm_warning_symbol='>*' " 不查询ultisnips提供的代码模板补全，如果需要，设置成1即可
-" let g:ycm_use_ultisnips_completer=0
 let g:ycm_semantic_triggers = { 'c' : ['->', '.']}
-"---------------------
-"The g:ycm_key_list_select_completion option
-"This option controls the key mappings used to select the first completion string. 
-"Invoking any of them repeatedly cycles forward through the completion list.
-
 let g:ycm_key_list_select_completion = ['<Down>']
+set completeopt=preview
 "}}}
 
-"cscope setting{{{ 
+"cscope setting{ 
 if has("cscope")
     set csprg=cscope
     set cscopetag
@@ -67,18 +52,16 @@ if has("cscope")
         cs add cscope.out ./ -C
     endif
     set cscopeverbose
+    nnoremap  <c-@> :cs f  
+    nnoremap  <localleader>2c :cs find c <C-R>=expand("<cword>")<CR><CR>
+    nnoremap  <localleader>2s :cs find s <C-R>=expand("<cword>")<CR><CR>
+    nnoremap  <localleader>2t :cs find t <C-R>=expand("<cword>")<CR><CR>
+    nnoremap  <localleader>2g :cs find g <C-R>=expand("<cword>")<CR><CR>
+    nnoremap  <localleader>2f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+    nnoremap  <localleader>2i :cs find i <C-R>=expand("<cfile>")<CR><CR>
+    "ctrl+g 调用*
+    nnoremap  <localleader>g  :cs f s  <c-r>*<cr>
 endif
-"{{{ cscope cs find
-    :nnoremap  <c-@> :cs f  
-    :nnoremap  <localleader>2c :cs find s <C-R>=expand("<cword>")<CR><CR>
-    :nnoremap  <localleader>2s :cs find s <C-R>=expand("<cword>")<CR><CR>
-    :nnoremap  <localleader>2t :cs find s <C-R>=expand("<cword>")<CR><CR>
-    :nnoremap  <localleader>2g :cs find s <C-R>=expand("<cword>")<CR><CR>
-    :nnoremap  <localleader>2f :cs find s <C-R>=expand("<cfile>")<CR><CR>
-    :nnoremap  <localleader>2i :cs find s <C-R>=expand("<cfile>")<CR><CR>
-    ""ctrl+g 调用*
-    :nnoremap  <localleader>g  :cs f s  <c-r>*<cr>
-"}}}
 "}}}
 
 if filereadable(glob("$VIMRUNTIME/colors/imscolo.vim"))
@@ -130,24 +113,24 @@ set cindent
 set completeopt=longest,menu
 set wildmode=list:longest "命令行文件路径补全
 
-
-"{{{start----- 自动补全  -----------------
-    :inoremap ( ()<ESC>i
-    :inoremap ) <c-r>=ClosePair(')')<CR>
-    :inoremap { {<CR>}<ESC>O
-    :inoremap } <c-r>=ClosePair('}')<CR>
-    :inoremap [ []<ESC>i
-    :inoremap ] <c-r>=ClosePair(']')<CR>
-    :inoremap " ""<ESC>i
-    :inoremap ' ''<ESC>i
-    function! ClosePair(char)
+""{
+function! ClosePair(char)
     if getline('.')[col('.') - 1] == a:char
        return "\<Right>"
     else
        return a:char
     endif
-    endfunction
-"}}} "end--------------------------------
+endfunction
+
+inoremap ( ()<ESC>i
+inoremap ) <c-r>=ClosePair(')')<CR>
+inoremap { {}<ESC>i
+inoremap } <c-r>=ClosePair('}')<CR>
+inoremap [ []<ESC>i
+inoremap ] <c-r>=ClosePair(']')<CR>
+inoremap " ""<ESC>i
+inoremap ' ''<ESC>i
+"}
 
 au BufNewFile,BufRead *.h set filetype=h
 
@@ -297,51 +280,33 @@ function! TermdebugAdd()
 endfunction
 nnoremap  <localleader>d :call TermdebugAdd()<cr>
 "}}}
-"
-"iconv{{{
-function! Iconv()
-    let s=system('iconv -f gbk -t utf-8 '.expand('%').' -o '.expand('%'))
-endfunction
-nnoremap  <localleader>gbk :call Iconv()<cr>
-"}}}
-"
-
-
 
 "my shortcut key{{{
-"map reg 9"
-nnoremap  <localleader>9  bve"9y
-nnoremap  <localleader>99  bdw"9[p
-vnoremap  <localleader>1  "1y
-vnoremap  <localleader>=  ggvG=
-
-nnoremap  qa :qa<cr>
+inoremap jk <esc>
 nnoremap  <c-s>  :update<cr>:%s/\t/    /g<cr>
-inoremap  <c-s>  <esc>:update<cr>
-nnoremap  <localleader>q :q<cr>
+inoremap  <c-s>  <esc>:update<cr>:%s/\t/    /g<cr>
+vnoremap  <c-s>  <esc>:update<cr>:%s/\t/    /g<cr>
+nnoremap  <localleader>q  :q<cr>
 nnoremap  <localleader>qq :q!<cr>
 nnoremap  <localleader>wq :wq<cr>
 nnoremap  <localleader>wa :wa<cr>
 nnoremap  <localleader>qa :qa<cr>
 nnoremap  <localleader>s  :%s/
-nnoremap  <localleader>b :<C-u>call gitblame#echo()<CR> 
-nnoremap  <localleader>sw  :%s/<c-r><c-w>/
-nnoremap  <localleader>sh  :bot term ++rows=8 bash<cr>
-nnoremap  <localleader>t :%s/\t/    /g<cr>
+nnoremap  <localleader>sw :%s/<c-r><c-w>/
 nnoremap  <localleader><Space> :%s/ *$//g<cr>
 
+nnoremap  <localleader>sh  :bot term ++rows=8 bash<cr>
+nnoremap  <localleader>b :<C-u>call gitblame#echo()<CR> 
+vnoremap  <localleader>=  ggvG=
 nnoremap  <localleader>y  byw
 nnoremap  <localleader>yy "+yy<cr>
 nnoremap  <localleader>yw "+yw<cr>
 nnoremap  <localleader>/ :/\<\>
 nnoremap  <localleader>? :?\<\>
-inoremap <c-d> <esc>ddo
-nnoremap <localleader>ev :vsplit$MYVIMRC<cr>
-nnoremap <localleader>sv :source$MYVIMRC<cr>
-inoremap jk <esc>
-nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
-nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
-nnoremap <leader>\ : , s/^/\/\//g
+nnoremap  <localleader>ev :vsplit$MYVIMRC<cr>
+nnoremap  <localleader>sv :source$MYVIMRC<cr>
+nnoremap  <localleader>" viw<esc>a"<esc>hbi"<esc>lel
+nnoremap  <localleader>' viw<esc>a'<esc>hbi'<esc>lel
 autocmd FileType cpp nnoremap <buffer> <localleader>/ I//<esc>
 autocmd FileType c nnoremap <buffer> <localleader>/ I//<esc>
 "}}}
