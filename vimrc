@@ -30,8 +30,6 @@ filetype plugin indent on    " required
 nnoremap  <localleader>in :PluginInstall    <cr>
 nnoremap  <localleader>li :PluginList      <cr>
 "}}}
-
-set t_Co=256 "number of colors"
 "YcmCfg{{{
 ""swith of symtax diagnost
 let g:ycm_show_diagnostics_ui = 1
@@ -54,28 +52,39 @@ let g:ycm_error_symbol='>>'
 let g:ycm_semantic_triggers = { 'c' : ['->', '.']}
 "---------------------
 "The g:ycm_key_list_select_completion option
-"This option controls the key mappings used to select the first completion string. Invoking any of them repeatedly cycles forward through the completion list.
+"This option controls the key mappings used to select the first completion string. 
+"Invoking any of them repeatedly cycles forward through the completion list.
 
 let g:ycm_key_list_select_completion = ['<Down>']
 "}}}
 
 "cscope setting{{{ 
 if has("cscope")
-    if filereadable("/usr/bin/cscope-C")
-        set csprg=/usr/bin/cscope-C
-    else
-        set csprg=cscope
-    endif
+    set csprg=cscope
     set cscopetag
     set nocscopeverbose
     if filereadable("cscope.out")
-        cs add cscope.out 
+        cs add cscope.out ./ -C
     endif
     set cscopeverbose
 endif
-
+"{{{ cscope cs find
+    :nnoremap  <c-@> :cs f  
+    :nnoremap  <localleader>2c :cs find s <C-R>=expand("<cword>")<CR><CR>
+    :nnoremap  <localleader>2s :cs find s <C-R>=expand("<cword>")<CR><CR>
+    :nnoremap  <localleader>2t :cs find s <C-R>=expand("<cword>")<CR><CR>
+    :nnoremap  <localleader>2g :cs find s <C-R>=expand("<cword>")<CR><CR>
+    :nnoremap  <localleader>2f :cs find s <C-R>=expand("<cfile>")<CR><CR>
+    :nnoremap  <localleader>2i :cs find s <C-R>=expand("<cfile>")<CR><CR>
+    ""ctrl+g 调用*
+    :nnoremap  <localleader>g  :cs f s  <c-r>*<cr>
+"}}}
 "}}}
 
+if filereadable(glob("$VIMRUNTIME/colors/imscolo.vim"))
+    nnoremap <localleader>ms :vsplit $VIMRUNTIME/colors/imscolo.vim<cr>
+    colorscheme imscolo
+endif
 
 if has("syntax")
     syntax on
@@ -94,19 +103,24 @@ endif
     setlocal foldlevel=0
 "}}}
 set mouse=a     " Enable mouse usage (all modes)
-set diffopt=filler,context:4
+"diff setting{{{
+set diffopt=vertical,context:4
+nnoremap  <localleader>df :bufdo diffs<cr>
+"}}}
+
 set showmatch           " Show matching brackets.
 "set ignorecase     " Do case insensitive matching
 "set smartcase      " Do smart case matching
 
+set t_Co=256 "number of colors"
 set noswapfile
 set nobackup        "no backup
 set autoread 
 set autowrite       " Automatically save before commands like :next and :make
 set hidden          " Hide buffers when they are abandoned
 
-set number           "show line number
-set ruler            "show cursor site in right below
+set number
+set ruler           "show cursor site in right below
 set tabstop=4      
 set shiftwidth=4
 set incsearch       " The screen will be updated often,with typing pattern
@@ -114,6 +128,8 @@ set hlsearch        " highlight all its matches.
 set autoindent 
 set cindent
 set completeopt=longest,menu
+set wildmode=list:longest "命令行文件路径补全
+
 
 "{{{start----- 自动补全  -----------------
     :inoremap ( ()<ESC>i
@@ -134,67 +150,60 @@ set completeopt=longest,menu
 "}}} "end--------------------------------
 
 au BufNewFile,BufRead *.h set filetype=h
-"start---------- definition  SetTitle() ------------------------------------
 
-autocmd BufNewFile *.cpp,*.c,*.h,*.sh,*.java  exec ":call SetTitle()"
+autocmd BufNewFile *.cpp,*.c,*.h,*.sh,  exec ":call SetTitle()"
 func! SetTitle()
     if &filetype == 'sh'
-        call setline(1,"\#########################################################################")
-        call append(line("."), "\# File Name: ".expand("%"))
+        call setline(1,          "\##########################################################")
+        call append(line("."),   "\# File Name: ".expand("%"))
         call append(line(".")+1, "\# Author: ims")
         call append(line(".")+2, "\# Created Time: ".strftime("%c"))
-        call append(line(".")+3, "\#########################################################################")
+        call append(line(".")+3, "\##########################################################")
         call append(line(".")+4, "\#!/bin/bash")
         call append(line(".")+5, "")
     else
-        call setline(1, "/*************************************************************************")
-        call append(line("."), "    > File Name: ".expand("%"))
+        call setline(1,          "/*********************************************************")
+        call append(line("."),   "    > File Name: ".expand("%"))
         call append(line(".")+1, "    > Author: ims")
         call append(line(".")+2, "    > Created Time: ".strftime("%c"))
-        call append(line(".")+3, " ************************************************************************/")
+        call append(line(".")+3, " *********************************************************/")
         call append(line(".")+4, "")
+    endif
+
+    if &filetype == 'c'
+        call append(line(".")+5, "#include<stdio.h>")
+        call append(line(".")+6, "#include<string.h>")
+        call append(line(".")+7, "")
     endif
 
     if &filetype == 'cpp'
         call append(line(".")+5, "#include<iostream>")
         call append(line(".")+6, "using namespace std;")
         call append(line(".")+7, "")
+    endif
+
+    if &filetype == 'cpp' || &filetype == 'c'
         call append(line(".")+8, "int main()")
         call append(line(".")+9, "{")
         call append(line(".")+10, "\t")
         call append(line(".")+11, "\treturn 0;")
         call append(line(".")+12, "}")
     endif
-
     if &filetype == 'h'
-        let tem= expand("%")
-        let lens= strlen(tem)
-        let substr = strpart(tem,0,lens-2)
-        let headstr = toupper(substr).'_H'
-        call append(line(".")+5, '#ifndef '.headstr)
-        call append(line(".")+6, '#define '.headstr)
+        let fileName = strpart(expand("%"),0,strlen(expand("%"))-2)
+        let headFileMacro = toupper(fileName).'_H'
+        call append(line(".")+5, '#ifndef '.headFileMacro)
+        call append(line(".")+6, '#define '.headFileMacro)
         call append(line(".")+7, "")
         call append(line(".")+8, " ")
         call append(line(".")+9, "#endif")
         set filetype=cpp
     endif
 
-    if &filetype == 'c'
-        call append(line(".")+5, "#include<stdio.h>")
-        call append(line(".")+6, "")
-        call append(line(".")+7, "")
-        call append(line(".")+8, "int main()")
-        call append(line(".")+9, "{")
-        call append(line(".")+10, "\t")
-        call append(line(".")+11, "\treturn 0;")
-        call append(line(".")+12, "}")
-    endif
-
     normal 12G"
 endfunc
-au  BufRead *.h set filetype=cpp
+autocmd BufRead *.h set filetype=cpp
 
-"end----------- SetTitle() --------------------------------
 
 "show run result{{{
 function! ExecProm()
@@ -235,11 +244,11 @@ function! ExecProm()
 
 endfunction
 nnoremap  <localleader>ll :call ExecProm()<cr>
+autocmd BufNewFile,BufWrite * :syntax match operators "\<compile result\>"
+autocmd BufNewFile,BufWrite * :syntax match operators "\<run result\>"
+hi operators ctermfg = DarkCyan
 "}}}
 
-autocmd BufNewFile,BufRead,BufWrite * :syntax match operators "\<compile result\>"
-autocmd BufNewFile,BufRead,BufWrite * :syntax match operators "\<run result\>"
-hi operators ctermfg = DarkCyan
 "exit run shell for long time{
 function! RunShell()
     :set noautochdir<cr>
@@ -297,21 +306,6 @@ nnoremap  <localleader>gbk :call Iconv()<cr>
 "}}}
 "
 
-"Update Cscope{
-function! UpdateCscope()
-    :echo system('sh bcsu')
-    3sleep
-    let i = 1
-    while i < 20
-        if filereadable("cscope.out")
-            cs reset
-            break
-        endif
-        1sleep
-    endwhile
-endfunction
-nnoremap  <unique><localleader>u :call UpdateCscope()<cr>
-"}
 
 
 "my shortcut key{{{
@@ -333,10 +327,6 @@ nnoremap  <localleader>s  :%s/
 nnoremap  <localleader>b :<C-u>call gitblame#echo()<CR> 
 nnoremap  <localleader>sw  :%s/<c-r><c-w>/
 nnoremap  <localleader>sh  :bot term ++rows=8 bash<cr>
-nnoremap  <localleader>sc :ConqueTerm bash<cr>
-nnoremap  <localleader>shs :ConqueTermSplit bash<cr>
-nnoremap  <localleader>shv :ConqueTermVSplit bash<cr>
-nnoremap  <localleader>sht :ConqueTermTab bash<cr>
 nnoremap  <localleader>t :%s/\t/    /g<cr>
 nnoremap  <localleader><Space> :%s/ *$//g<cr>
 
@@ -347,7 +337,6 @@ nnoremap  <localleader>/ :/\<\>
 nnoremap  <localleader>? :?\<\>
 inoremap <c-d> <esc>ddo
 nnoremap <localleader>ev :vsplit$MYVIMRC<cr>
-nnoremap <localleader>ms :vsplit $VIMRUNTIME/colors/imscolo.vim<cr>
 nnoremap <localleader>sv :source$MYVIMRC<cr>
 inoremap jk <esc>
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
@@ -355,22 +344,6 @@ nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
 nnoremap <leader>\ : , s/^/\/\//g
 autocmd FileType cpp nnoremap <buffer> <localleader>/ I//<esc>
 autocmd FileType c nnoremap <buffer> <localleader>/ I//<esc>
-"}}}
-"reset win size {{{ 
-    vnoremap , <c-w>3< 
-    vnoremap . <c-w>3> 
-"}}}
-
-"{{{ cscope cs find
-    :nnoremap  <c-@> :cs f  
-    :nnoremap  <localleader>2c byw:cs f c <c-r>0
-    :nnoremap  <localleader>2s byw:cs f s <c-r>0
-    :nnoremap  <localleader>2t byw:cs f t <c-r>0
-    :nnoremap  <localleader>2g byw:cs f g <c-r>0
-    :nnoremap  <localleader>2f byw:cs f f <c-r>0
-    :nnoremap  <localleader>2i byw:cs f i <c-r>0
-    ""ctrl+g 调用*
-    :nnoremap  <localleader>g  :cs f s  <c-r>*<cr>
 "}}}
 
 "{{{ format text
@@ -416,29 +389,15 @@ endfunction
     ""let g:miniBufExplUseSingleClick = 1
 "}}}
 
-
-let g:indentLine_color_term = 24
-let g:indentLine_leadingSpaceChar = '·'
-let g:indentLine_leadingSpaceEnabled = 1
-
-
-"命令行文件路径补全
-set wildmode=list:longest
-"diff setting{{{
-set diffopt=vertical,context:4
-nnoremap  <localleader>df :bufdo diffs<cr>
-"}}}
-
-
-colorscheme imscolo
-set laststatus=2
-
 func! Handler(channel, msg)
     echo a:msg
 endfunc
 
-func! GetDate()
-    call job_start([ './tem.sh'], {'callback': 'Handler'})
+func! RefreshCscope()
+    call job_start([ './buildcs.sh'], {'callback': 'Handler'})
 endfunc
 
-nnoremap <F3> :call GetDate()<cr>
+nnoremap <F3> :call RefreshCscope()<cr>
+nnoremap <localleader>e :!echo <c-r>"
+
+set laststatus=2
