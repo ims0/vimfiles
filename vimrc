@@ -18,31 +18,59 @@ Plugin 'godlygeek/tabular'
 Plugin 'zivyangll/git-blame.vim'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'suan/vim-instant-markdown'
+Plugin 'Yggdroot/LeaderF'
 Plugin 'Valloric/YouCompleteMe'
 call vundle#end()            " required
 filetype plugin indent on    " required
-
 " Brief help
 " :PluginList       - lists configured plugins
 " :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
 " :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
 nnoremap  <localleader>in :PluginInstall    <cr>
 nnoremap  <localleader>li :PluginList      <cr>
 "}}}
-"Ycm Config{{{
-let g:ycm_show_diagnostics_ui = 1  "switch of symtax diagnostic
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
-let g:ycm_collect_identifiers_from_tag_files = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_confirm_extra_conf=0
-let g:ycm_complete_in_comments=0
-let g:ycm_error_symbol='>>'
-let g:ycm_semantic_triggers = { 'c' : ['->', '.']}
-let g:ycm_key_list_select_completion = ['<Down>']
-set completeopt=preview
+
+"my shortcut key{{{
+inoremap  jk <esc>
+nnoremap  <c-s>  :update<cr>:%s/\t/    /g<cr>
+inoremap  <c-s>  <esc>:update<cr>:%s/\t/    /g<cr>
+vnoremap  <c-s>  <esc>:update<cr>:%s/\t/    /g<cr>
+nnoremap  <localleader>q  :q<cr>
+nnoremap  <localleader>qq :q!<cr>
+nnoremap  <localleader>wq :wq<cr>
+nnoremap  <localleader>wa :wa<cr>
+nnoremap  <localleader>qa :qa<cr>
+nnoremap  <localleader>s  :%s/
+nnoremap  <localleader>sw :%s/<c-r><c-w>/
+nnoremap  <localleader><Space> :%s/ *$//g<cr>
+nnoremap  <localleader>sh  :bot term ++rows=8 bash<cr>
+nnoremap  <localleader>b :<C-u>call gitblame#echo()<CR> 
+vnoremap  <localleader>=  ggvG=
+nnoremap  <localleader>y  byw
+nnoremap  <localleader>yy "+yy<cr>
+nnoremap  <localleader>yw "+yw<cr>
+nnoremap  <localleader>/ :/\<\>
+nnoremap  <localleader>? :?\<\>
+nnoremap  <localleader>ev :vsplit$MYVIMRC<cr>
+nnoremap  <localleader>sv :source$MYVIMRC<cr>
+nnoremap  <localleader>" viw<esc>a"<esc>hbi"<esc>lel
+nnoremap  <localleader>' viw<esc>a'<esc>hbi'<esc>lel
+nnoremap  <localleader>e :!echo <c-r>"
+nnoremap  yf :let @f=expand("%:t")<CR>
+nnoremap  yp :let @p=expand("%:p")<CR>
+autocmd FileType cpp nnoremap <buffer> <localleader>/ I//<esc>
+autocmd FileType c nnoremap <buffer> <localleader>/ I//<esc>
 "}}}
 
+"LeaderF cfg"{
+nnoremap  <localleader>f :LeaderfFile<cr>
+nnoremap  <localleader>bu :LeaderfBuffer<cr>
+let g:Lf_WildIgnore = {
+        \ 'dir': ['.svn','.git'],
+        \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
+        \}
+"}
+"
 "cscope setting{ 
 if has("cscope")
     set csprg=cscope
@@ -59,10 +87,8 @@ if has("cscope")
     nnoremap  <localleader>2g :cs find g <C-R>=expand("<cword>")<CR><CR>
     nnoremap  <localleader>2f :cs find f <C-R>=expand("<cfile>")<CR><CR>
     nnoremap  <localleader>2i :cs find i <C-R>=expand("<cfile>")<CR><CR>
-    "ctrl+g 调用*
-    nnoremap  <localleader>g  :cs f s  <c-r>*<cr>
 endif
-"}}}
+"}
 
 if filereadable(glob("$VIMRUNTIME/colors/imscolo.vim"))
     nnoremap <localleader>ms :vsplit $VIMRUNTIME/colors/imscolo.vim<cr>
@@ -73,35 +99,33 @@ if has("syntax")
     syntax on
 endif
 
-"paste mode{{{
+"paste mode{
     :map <F6> :set paste<CR>
     :map <F7> :set nopaste<CR>
     :imap <F6> <C-O>:set paste<CR>
     :imap <F7> <nop>
     :set pastetoggle=<F6>
-"}}}
+"}
 
-"fold{{{ 
+"fold{ 
     set foldcolumn=0
     setlocal foldlevel=0
-"}}}
-set mouse=a     " Enable mouse usage (all modes)
-"diff setting{{{
+"}
+"diff setting{
 set diffopt=vertical,context:4
 nnoremap  <localleader>df :bufdo diffs<cr>
-"}}}
+"}
 
 set showmatch           " Show matching brackets.
 "set ignorecase     " Do case insensitive matching
 "set smartcase      " Do smart case matching
-
+set mouse=a
 set t_Co=256 "number of colors"
 set noswapfile
 set nobackup        "no backup
 set autoread 
 set autowrite       " Automatically save before commands like :next and :make
 set hidden          " Hide buffers when they are abandoned
-
 set number
 set ruler           "show cursor site in right below
 set tabstop=4      
@@ -111,9 +135,10 @@ set hlsearch        " highlight all its matches.
 set autoindent 
 set cindent
 set completeopt=longest,menu
-set wildmode=list:longest "命令行文件路径补全
+set wildmode=list:longest
+set laststatus=2
 
-""{
+"{
 function! ClosePair(char)
     if getline('.')[col('.') - 1] == a:char
        return "\<Right>"
@@ -132,8 +157,151 @@ inoremap " ""<ESC>i
 inoremap ' ''<ESC>i
 "}
 
-au BufNewFile,BufRead *.h set filetype=h
+"Ycm Config{
+let g:ycm_show_diagnostics_ui = 0  "switch of symtax diagnostic
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
+let g:ycm_collect_identifiers_from_tag_files = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_confirm_extra_conf=0
+let g:ycm_complete_in_comments=0
+let g:ycm_error_symbol='>>'
+let g:ycm_semantic_triggers = { 'c' : ['->', '.']}
+let g:ycm_key_list_select_completion = ['<Down>']
+set completeopt=preview
+"}
 
+"{{{ map ctags,srcExpl,NerdTree:F9,F10,F12
+    " Open and close the taglist.vim separately
+    nnoremap <F9>  :TrinityToggleTagList<CR>
+    " Open and close the srcexpl.vim separately
+    nnoremap <F10> :TrinityToggleSourceExplorer<CR>
+    " Open and close the NERD_tree.vim separately
+    nnoremap <F12>  :TrinityToggleNERDTree<CR>
+"}}}
+"NERDtree{
+    " 改变nerdtree的箭头
+    let g:NERDTreeDirArrowExpandable = '▸'
+    let g:NERDTreeDirArrowCollapsible = '▾'
+    "adDTreeShowHidden=1
+    " 设置宽度
+    let NERDTreeWinSize=30
+    " 在终端启动vim时，共享NERDTree
+    let g:nerdtree_tabs_open_on_console_startup=1
+    " 忽略一下文件的显示
+    let NERDTreeIgnore=['\.pyc','\~$','\.swp','\.a','\.o']
+    " 显示书签列表
+    "let NERDTreeShowBookmarks=1
+"}
+"map sys clipboard{
+if has("clipboard")
+    vnoremap  y    "+y 
+    vnoremap  p    "+p
+endif
+set clipboard+=unnamedplus
+"}
+"
+"term gdb debug{
+function! TermdebugAdd()
+    exe "packadd termdebug"
+    :Termdebug 
+endfunction
+nnoremap  <localleader>d :call TermdebugAdd()<cr>
+"}
+
+"{ 
+    nnoremap > V>
+    nnoremap <s-tab> V<
+    vnoremap > >gv
+    vnoremap <s-tab> <gv
+"}
+
+"minibufexplore settings{ 
+    let g:miniBufExplMapWindowNavVim = 1
+    let g:miniBufExplMapWindowNavArrows = 2
+    let g:miniBufExplMapCTabSwitchBufs = 1
+    let g:miniBufExplModSelTarget = 1
+    let g:bufExplorerMaxHeight=3
+    ""let g:miniBufExplUseSingleClick = 1
+"}
+"sdvc{
+set keywordprg=sdcv\ -u\ 朗道英汉字典5.0
+function! Mydict()
+    let retstr=system('sdcv '.expand("<cword>"))
+    windo if expand("%")=="dict-win" |q!|endif
+    30vsp dict-win
+    setlocal buftype=nofile bufhidden=hide noswapfile
+    1s/^/\=retstr/
+    1
+endfunction
+nnoremap F :call Mydict()<CR>
+"use sdcv instead man
+set keywordprg=sdcv
+"}
+"
+"sys ls{
+function! Sysls()
+    let retstr=system('ls')
+    bufdo if expand("%")=="_sys_ls" |bd _sys_ls|endif
+    30vsp _sys_ls
+    setlocal buftype=nofile bufhidden=hide noswapfile
+    1s/^/\=retstr/
+    1
+endfunction
+    :nnoremap  <localleader>ls :call Sysls()<cr>
+"}
+
+"create job{
+func! Handler(channel, msg)
+    echo a:msg
+endfunc
+
+func! RefreshCscope()
+    call job_start([ './buildcs.sh'], {'callback': 'Handler'})
+endfunc
+nnoremap <F3> :call RefreshCscope()<cr>
+"}
+
+"exit run shell for long time{
+function! RunShell()
+    :set noautochdir<cr>
+    :!sh %
+endfunction
+nnoremap  <localleader>r :call RunShell()<cr>
+"}
+"show run result{
+function! ExecProm()
+    bufdo if expand("%")=="runResult" |bd runResult|endif
+    exec "w"
+    let headtitle  = system("echo -e '------------compile result--------------'")
+    let runResLine = system("echo -e '--------------run result----------------'")
+    if &filetype == 'c'
+        let compileResu = system('gcc '.expand('%').' -o '.expand('%<'))
+        let runResu=headtitle.compileResu.runResLine .system('./'.expand('%<'))
+    endif
+    if &filetype == 'cpp'
+        let compileResu = system('g++ -std=c++11 '.expand('%').' -lpthread -o '.expand('%<'))
+        let runResu=headtitle.compileResu.runResLine .system('./'.expand('%<'))
+    endif
+    if &filetype == 'python'
+        let runResu=runResLine .system('python3 '.expand('%'))
+    endif
+    if &filetype == 'sh'
+        let runResu=runResLine .system('sh '.expand('%'))
+    endif
+
+    bot 9sp runResult
+    setlocal buftype=nofile bufhidden=hide noswapfile
+    1s/^/\=runResu/
+    1
+endfunction
+nnoremap  <localleader>ll :call ExecProm()<cr>
+autocmd BufNewFile,BufWrite * :syntax match operators "\<compile result\>"
+autocmd BufNewFile,BufWrite * :syntax match operators "\<run result\>"
+hi operators ctermfg = DarkCyan
+"}
+
+"{
+au BufNewFile,BufRead *.h set filetype=h
 autocmd BufNewFile *.cpp,*.c,*.h,*.sh,  exec ":call SetTitle()"
 func! SetTitle()
     if &filetype == 'sh'
@@ -186,183 +354,4 @@ func! SetTitle()
     normal 12G"
 endfunc
 autocmd BufRead *.h set filetype=cpp
-
-
-"show run result{{{
-function! ExecProm()
-    bufdo if expand("%")=="runResult" |bd runResult|endif
-    exec "w"
-    let headtitle = system("echo -e '------------compile result--------------'")
-    let runResLine = system("echo -e '--------------run result----------------'")
-    if &filetype == 'c'
-        let compileResu = system('gcc '.expand('%').' -o '.expand('%<'))
-        let runResu=headtitle.compileResu.runResLine .system('./'.expand('%<'))
-        bot 9sp runResult
-        setlocal buftype=nofile bufhidden=hide noswapfile
-        1s/^/\=runResu/
-        1
-    endif
-    if &filetype == 'cpp'
-        let compileResu = system('g++ -std=c++11 '.expand('%').' -lpthread -o '.expand('%<'))
-        let runResu=headtitle.compileResu.runResLine .system('./'.expand('%<'))
-        bot 9sp runResult
-        setlocal buftype=nofile bufhidden=hide noswapfile
-        1s/^/\=runResu/
-        1
-    endif
-    if &filetype == 'python'
-        let runResu=runResLine .system('python3 '.expand('%'))
-        bot 9sp runResult
-        setlocal buftype=nofile bufhidden=hide noswapfile
-        1s/^/\=runResu/
-        1
-    endif
-    if &filetype == 'sh'
-        let runResu=runResLine .system('sh '.expand('%'))
-        bot 9sp runResult
-        setlocal buftype=nofile bufhidden=hide noswapfile
-        1s/^/\=runResu/
-        1
-    endif
-
-endfunction
-nnoremap  <localleader>ll :call ExecProm()<cr>
-autocmd BufNewFile,BufWrite * :syntax match operators "\<compile result\>"
-autocmd BufNewFile,BufWrite * :syntax match operators "\<run result\>"
-hi operators ctermfg = DarkCyan
-"}}}
-
-"exit run shell for long time{
-function! RunShell()
-    :set noautochdir<cr>
-    :!sh %
-endfunction
-nnoremap  <localleader>r :call RunShell()<cr>
 "}
-
-
-"{{{ map ctags,srcExpl,NerdTree:F9,F10,F12
-    " Open and close the taglist.vim separately
-    nnoremap <F9>  :TrinityToggleTagList<CR>
-    " Open and close the srcexpl.vim separately
-    nnoremap <F10> :TrinityToggleSourceExplorer<CR>
-    " Open and close the NERD_tree.vim separately
-    nnoremap <F12>  :TrinityToggleNERDTree<CR>
-"}}}
-"NERDtree{{{
-    " 改变nerdtree的箭头
-    let g:NERDTreeDirArrowExpandable = '▸'
-    let g:NERDTreeDirArrowCollapsible = '▾'
-    "adDTreeShowHidden=1
-    " 设置宽度
-    let NERDTreeWinSize=30
-    " 在终端启动vim时，共享NERDTree
-    let g:nerdtree_tabs_open_on_console_startup=1
-    " 忽略一下文件的显示
-    let NERDTreeIgnore=['\.pyc','\~$','\.swp','\.a','\.o']
-    " 显示书签列表
-    "let NERDTreeShowBookmarks=1
-"}}}
-"map sys clipboard{
-if has("clipboard")
-    vnoremap  y    "+y 
-    vnoremap  p    "+p
-endif
-"}
-"
-nnoremap yf : let @f=expand("%:t")<CR>
-nnoremap yp : let @p=expand("%:p")<CR>
-set clipboard+=unnamedplus
-"term debug{{{
-function! TermdebugAdd()
-    exe "packadd termdebug"
-    :Termdebug 
-endfunction
-nnoremap  <localleader>d :call TermdebugAdd()<cr>
-"}}}
-
-"my shortcut key{{{
-inoremap jk <esc>
-nnoremap  <c-s>  :update<cr>:%s/\t/    /g<cr>
-inoremap  <c-s>  <esc>:update<cr>:%s/\t/    /g<cr>
-vnoremap  <c-s>  <esc>:update<cr>:%s/\t/    /g<cr>
-nnoremap  <localleader>q  :q<cr>
-nnoremap  <localleader>qq :q!<cr>
-nnoremap  <localleader>wq :wq<cr>
-nnoremap  <localleader>wa :wa<cr>
-nnoremap  <localleader>qa :qa<cr>
-nnoremap  <localleader>s  :%s/
-nnoremap  <localleader>sw :%s/<c-r><c-w>/
-nnoremap  <localleader><Space> :%s/ *$//g<cr>
-
-nnoremap  <localleader>sh  :bot term ++rows=8 bash<cr>
-nnoremap  <localleader>b :<C-u>call gitblame#echo()<CR> 
-vnoremap  <localleader>=  ggvG=
-nnoremap  <localleader>y  byw
-nnoremap  <localleader>yy "+yy<cr>
-nnoremap  <localleader>yw "+yw<cr>
-nnoremap  <localleader>/ :/\<\>
-nnoremap  <localleader>? :?\<\>
-nnoremap  <localleader>ev :vsplit$MYVIMRC<cr>
-nnoremap  <localleader>sv :source$MYVIMRC<cr>
-nnoremap  <localleader>" viw<esc>a"<esc>hbi"<esc>lel
-nnoremap  <localleader>' viw<esc>a'<esc>hbi'<esc>lel
-autocmd FileType cpp nnoremap <buffer> <localleader>/ I//<esc>
-autocmd FileType c nnoremap <buffer> <localleader>/ I//<esc>
-"}}}
-
-"{{{ format text
-    nnoremap > V>
-    nnoremap <s-tab> V<
-    vnoremap > >gv
-    vnoremap <s-tab> <gv
-"}}}
-
-"sdvc{{{
-set keywordprg=sdcv\ -u\ 朗道英汉字典5.0
-function! Mydict()
-    let retstr=system('sdcv '.expand("<cword>"))
-    windo if expand("%")=="dict-win" |q!|endif
-    30vsp dict-win
-    setlocal buftype=nofile bufhidden=hide noswapfile
-    1s/^/\=retstr/
-    1
-endfunction
-nnoremap F :call Mydict()<CR>
-"use sdcv instead man
-set keywordprg=sdcv
-"}}}
-"
-"sys ls{{{
-function! Sysls()
-    let retstr=system('ls')
-    bufdo if expand("%")=="_sys_ls" |bd _sys_ls|endif
-    30vsp _sys_ls
-    setlocal buftype=nofile bufhidden=hide noswapfile
-    1s/^/\=retstr/
-    1
-endfunction
-    :nnoremap  <localleader>ls :call Sysls()<cr>
-"}}}
-
-"{{{ minibufexplore settings
-    let g:miniBufExplMapWindowNavVim = 1
-    let g:miniBufExplMapWindowNavArrows = 2
-    let g:miniBufExplMapCTabSwitchBufs = 1
-    let g:miniBufExplModSelTarget = 1
-    let g:bufExplorerMaxHeight=3
-    ""let g:miniBufExplUseSingleClick = 1
-"}}}
-
-func! Handler(channel, msg)
-    echo a:msg
-endfunc
-
-func! RefreshCscope()
-    call job_start([ './buildcs.sh'], {'callback': 'Handler'})
-endfunc
-
-nnoremap <F3> :call RefreshCscope()<cr>
-nnoremap <localleader>e :!echo <c-r>"
-
-set laststatus=2
