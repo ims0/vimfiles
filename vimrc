@@ -71,6 +71,22 @@ let g:Lf_WildIgnore = {
         \}
 "}
 "
+"NERDtree{
+    nnoremap  <localleader>nf :NERDTreeFind<cr>
+    " 改变nerdtree的箭头
+    let g:NERDTreeDirArrowExpandable = '▸'
+    let g:NERDTreeDirArrowCollapsible = '▾'
+    "adDTreeShowHidden=1
+    " 设置宽度
+    let NERDTreeWinSize=30
+    " 在终端启动vim时，共享NERDTree
+    let g:nerdtree_tabs_open_on_console_startup=1
+    " 忽略一下文件的显示
+    let NERDTreeIgnore=['\.pyc','\~$','\.swp','\.a','\.o']
+    " 显示书签列表
+    "let NERDTreeShowBookmarks=1
+"}
+
 "cscope setting{ 
 if has("cscope")
     set csprg=cscope
@@ -178,20 +194,6 @@ set completeopt=preview
     " Open and close the NERD_tree.vim separately
     nnoremap <F12>  :TrinityToggleNERDTree<CR>
 "}}}
-"NERDtree{
-    " 改变nerdtree的箭头
-    let g:NERDTreeDirArrowExpandable = '▸'
-    let g:NERDTreeDirArrowCollapsible = '▾'
-    "adDTreeShowHidden=1
-    " 设置宽度
-    let NERDTreeWinSize=30
-    " 在终端启动vim时，共享NERDTree
-    let g:nerdtree_tabs_open_on_console_startup=1
-    " 忽略一下文件的显示
-    let NERDTreeIgnore=['\.pyc','\~$','\.swp','\.a','\.o']
-    " 显示书签列表
-    "let NERDTreeShowBookmarks=1
-"}
 "map sys clipboard{
 if has("clipboard")
     vnoremap  y    "+y 
