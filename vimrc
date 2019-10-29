@@ -66,25 +66,24 @@ autocmd FileType c nnoremap <buffer> <localleader>/ I//<esc>
 nnoremap  <localleader>f :LeaderfFile<cr>
 nnoremap  <localleader>bu :LeaderfBuffer<cr>
 let g:Lf_WildIgnore = {
-        \ 'dir': ['.svn','.git'],
-        \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
+        \ 'dir': ['.svn','.git','CMakeFiles','tools'],
+        \ 'file': ['*.sw?','~$*','*.ba*','*.exe','*.o','*.a','*.so','*.py[co]']
         \}
 "}
-"
+
 "NERDtree{
     nnoremap  <localleader>nf :NERDTreeFind<cr>
     " 改变nerdtree的箭头
-    let g:NERDTreeDirArrowExpandable = '▸'
-    let g:NERDTreeDirArrowCollapsible = '▾'
-    "adDTreeShowHidden=1
+    ""let g:NERDTreeDirArrowExpandable = '▸'
+    ""let g:NERDTreeDirArrowCollapsible = '▾'
     " 设置宽度
     let NERDTreeWinSize=30
     " 在终端启动vim时，共享NERDTree
     let g:nerdtree_tabs_open_on_console_startup=1
-    " 忽略一下文件的显示
+    " 忽略文件
     let NERDTreeIgnore=['\.pyc','\~$','\.swp','\.a','\.o']
     " 显示书签列表
-    "let NERDTreeShowBookmarks=1
+    let NERDTreeShowBookmarks=1
 "}
 
 "cscope setting{ 
