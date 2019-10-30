@@ -1,5 +1,5 @@
 " Vim color file modify from industrial
-" Maintainer: ims    
+" Maintainer: ims
 " Remark:    "industry" stands for 'industrial' color scheme. In industrial
 "        HMI (Human-Machine-Interface) programming, using a standard color
 "               scheme is mandatory in many cases (in traffic-lights for example):
@@ -14,7 +14,6 @@
 "               Yet, depends on the file type's syntax, it might appear incorrect.
 " Reset to dark background, then reset everything to defaults:
 
-
 set background=dark
 hi clear
 if exists("syntax_on")
@@ -23,85 +22,73 @@ endif
 let g:colors_name = "imscolo"
 
 hi Normal    ctermfg=LightGray    ctermbg=234
-"minibuf {{{
-    "color of filename are changed in mimibuf
-" MBENormal         - for buffers that have NOT CHANGED and
-"                                     are NOT VISIBLE.
-" MBEChanged        - for buffers that HAVE CHANGED and are
-"                                     NOT VISIBLE
-" MBEVisibleNormal  - buffers that have NOT CHANGED and are
-"                                     VISIBLE
+"minibuf {
+" color of filename are changed in mimibuf
+" MBENormal         - for buffers that have NOT CHANGED and are NOT VISIBLE.
+" MBEChanged        - for buffers that HAVE CHANGED and are NOT VISIBLE
+" MBEVisibleNormal  - buffers that have NOT CHANGED and are VISIBLE
 " MBEVisibleChanged - buffers that have CHANGED and are VISIBLE
 
-hi MBENormal             cterm=NONE    ctermfg=40
-hi MBEChanged             cterm=NONE    ctermfg=red
-hi MBEVisibleNormal     cterm=bold    ctermfg=208
-hi MBEVisibleChanged     cterm=bold    ctermfg=200
+hi MBENormal            ctermfg=40         cterm=NONE
+hi MBEChanged           ctermfg=red        cterm=NONE
+hi MBEVisibleNormal     ctermfg=208        cterm=bold
+hi MBEVisibleChanged    ctermfg=200        cterm=bold
 
+"}
+"hi column row{
+hi StatusLine           ctermfg=208        ctermbg=237  cterm=NONE
+hi StatusLineNC         ctermfg=237        ctermbg=237
+hi VertSplit            ctermfg=DarkCyan   ctermbg=234
+hi LineNr               ctermfg=DarkCyan   ctermbg=233
+hi CursorLine           ctermfg=NONE       ctermbg=238  cterm=NONE
+hi CursorColumn         ctermfg=NONE       ctermbg=black
+set cursorline
+set cursorcolumn
+"}
 
-"color of filename now show and no change
-hi Comment    cterm=NONE    ctermfg=DarkCyan       ctermbg=234
-"color of filename show in current window
-hi Special    cterm=NONE    ctermfg=Yellow      ctermbg=234
-"}}}
-"highlight column row{{[
-    hi StatusLine    cterm=none    ctermfg=208            ctermbg=237
-    hi StatusLineNC    cterm=none    ctermfg=237            ctermbg=237
-    hi VertSplit    cterm=none    ctermfg=DarkCyan    ctermbg=234
-    hi LineNr        cterm=none    ctermfg=DarkCyan    ctermbg=233
-    hi CursorLine      cterm=none  ctermbg=238
-    set cursorline
-    hi CursorColumn cterm=NONE ctermbg=black 
-    set cursorcolumn
-"}}}
+hi IncSearch     ctermfg=Yellow        ctermbg=red
+hi Search        ctermfg=9             ctermbg=41
+hi Visual                              ctermbg=8     cterm=bold
+hi Comment       ctermfg=DarkCyan      ctermbg=234
+hi Special       ctermfg=Yellow        ctermbg=234
+hi Constant      ctermfg=LightCyan
+hi Identifier    ctermfg=LightMagenta
+hi PreProc       ctermfg=Yellow
+hi Type          ctermfg=LightGreen
+hi Delimiter     ctermfg=Yellow
+hi Statement     ctermfg=green
 
-hi Constant   cterm=NONE ctermfg=LightCyan
-hi Identifier cterm=NONE ctermfg=LightMagenta
-hi PreProc    cterm=NONE ctermfg=Yellow        
-hi Type          cterm=NONE ctermfg=LightGreen    
-hi Delimiter  cterm=NONE ctermfg=Yellow
-hi Statement  cterm=bold ctermfg=green
-        
+hi MatchParen    ctermfg=16            ctermbg=208   cterm=bold
+hi ModeMsg       ctermfg=red                         " color of INSERT or VISUAL
+hi MoreMsg       ctermfg=229
+hi Operator      ctermfg=Yellow
 
-hi MatchParen    ctermfg=16    ctermbg=208    cterm=bold
-hi ModeMsg        ctermfg=red    " color of insert
-hi MoreMsg        ctermfg=229
-hi Operator        ctermfg=Yellow
-
-hi Directory    ctermfg=118    cterm=bold
-hi Error        ctermfg=219    ctermbg=89
-hi ErrorMsg        ctermfg=199    ctermbg=16    cterm=bold
-hi Exception    ctermfg=118    cterm=bold
-hi Float        ctermfg=135
-hi FoldColumn    ctermfg=67    ctermbg=16
-hi Folded        ctermfg=67    ctermbg=16
-hi Function        ctermfg=118
-hi Ignore        ctermfg=244    ctermbg=232
-hi IncSearch    ctermfg=Yellow    ctermbg=red
-hi Search        cterm=none    ctermfg=red    ctermbg=185
-hi Visual        cterm=none    ctermbg=239
-
-hi Keyword        ctermfg=161        cterm=bold
-hi Label        ctermfg=229        cterm=none
+hi Directory     ctermfg=118           cterm=bold
+hi Error         ctermfg=219           ctermbg=89
+hi ErrorMsg      ctermfg=199           ctermbg=16    cterm=bold
+hi Exception     ctermfg=118           cterm=bold
+hi FoldColumn    ctermfg=67            ctermbg=16
+hi Folded        ctermfg=67            ctermbg=16
+hi Function      ctermfg=118
+hi Ignore        ctermfg=244           ctermbg=232
+hi Keyword       ctermfg=161           cterm=bold
+hi Label         ctermfg=229
 hi SpecialKey    ctermfg=81
+hi Structure     ctermfg=118
+hi Macro         ctermfg=161           cterm=bold
+hi PreCondit     ctermfg=161           cterm=bold
+hi StorageClass  ctermfg=208
+hi Tag           ctermfg=161
+hi Title         ctermfg=166
+hi String        ctermfg=166
 
-hi Structure     ctermfg=118 cterm=none
-hi Macro         ctermfg=161 cterm=bold
-hi PreCondit     ctermfg=161 cterm=bold
-
-hi StorageClass ctermfg=208
-hi Tag          ctermfg=161
-hi Title        ctermfg=166
-hi Todo         ctermfg=231 ctermbg=232
-hi NonText         ctermbg=233
 augroup hightlightFun
     autocmd!
-    " hilight function name
-    autocmd BufNewFile,BufRead,BufWrite * :syntax match cfunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>[^()]*)("me=e-2
+    " hilight function name   :me    Match End
     autocmd BufNewFile,BufRead,BufWrite * :syntax match cfunctions "\<[a-zA-Z_][a-zA-Z_0-9]*\>\s*("me=e-1
-    hi cfunctions ctermfg=43 "(这一行就是给函数名加颜色的)
-    autocmd BufNewFile,BufRead,BufWrite * :syntax match operators "[=\*\&\%\-\>\<\+]"
-    hi operators ctermfg = 39    
+    hi cfunctions ctermfg=43
+    ""autocmd BufNewFile,BufRead,BufWrite * :syntax match operators "[=\*\&\%\-\>\<\+]"
+    ""hi operators ctermfg = 39
     autocmd BufNewFile,BufRead,BufWrite  * :syntax match selfType "\<WORD32\>"
     autocmd BufNewFile,BufRead,BufWrite  * :syntax match selfType "\<WORD16\>"
     autocmd BufNewFile,BufRead,BufWrite  * :syntax match selfType "\<WORD\>"
@@ -109,8 +96,6 @@ augroup hightlightFun
     hi selfType ctermfg = 105
     autocmd BufNewFile,BufRead,BufWrite * :syntax match EVENT "CMU_EVENT[_A-Z0-9]*"
     hi EVENT ctermfg = Red
-    "autocmd BufNewFile,BufRead,BufWrite * :syntax match STRUCT "struct\ [_A-Z0-9]*"
-    "hi STRUCT ctermfg = Red
 augroup END
 
 
@@ -144,12 +129,5 @@ set showcmd
 "vim -M 不能修改模式
 "Cursor光标
 "ErrorMsg命令行中的错误提示
-"Folded折叠行
 "LineNr行号
-"NonText非文本区（控制字符和一些特殊字符和编辑器空白区等）
 "Normal编辑区一般文本的前景和背景色
-"Search搜索
-"StatusLine状态行
-"Visual圈选区
-
-
