@@ -14,6 +14,7 @@
 "               Yet, depends on the file type's syntax, it might appear incorrect.
 " Reset to dark background, then reset everything to defaults:
 
+
 set background=dark
 hi clear
 if exists("syntax_on")
