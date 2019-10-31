@@ -14,6 +14,7 @@ Plugin 'fholgado/minibufexpl.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-rhubarb'
 Plugin 'mbbill/code_complete'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
@@ -251,12 +252,12 @@ endfunction
 "}
 
 "create job{
-func! Handler(channel, msg)
+func! BuildcsEcho(channel, msg)
     echo a:msg
 endfunc
 
 func! RefreshCscope()
-    call job_start([ './buildcs.sh'], {'callback': 'Handler'})
+    call job_start([ './buildcs.sh'], {'callback': 'BuildcsEcho'})
 endfunc
 nnoremap <F3> :call RefreshCscope()<cr>
 "}
