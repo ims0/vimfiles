@@ -102,6 +102,7 @@ augroup END
 :function! SetLocalStatusLine()
     setlocal statusline =%{expand('%:h')}\/
     setlocal statusline +=%3*%{expand('%:t')}%*
+    setlocal statusline +=%{FugitiveStatusline()}
     setlocal statusline +=%1*%m%*
     setlocal statusline +=%2*%r%*
     setlocal statusline +=%=%y
