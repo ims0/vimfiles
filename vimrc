@@ -61,6 +61,14 @@ nnoremap  yp :let @+=expand("%:p")<CR>
 autocmd FileType cpp nnoremap <buffer> <localleader>/ I//<esc>
 autocmd FileType c nnoremap <buffer> <localleader>/ I//<esc>
 "}}}
+"设置切换Buffer快捷键"
+nnoremap <C-left> :bn<CR>
+nnoremap <C-right> :bp<CR>
+nnoremap vv ^vg_
+vmap <C-c> "+y
+imap <C-v> "+gP
+
+nmap <silent> <leader>ex :!start explorer %:p:h<CR>
 
 "LeaderF cfg"{
 nnoremap  <localleader>f :LeaderfFile<cr>
