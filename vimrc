@@ -65,8 +65,6 @@ autocmd FileType c nnoremap <buffer> <localleader>/ I//<esc>
 nnoremap <C-left> :bn<CR>
 nnoremap <C-right> :bp<CR>
 nnoremap vv ^vg_
-vmap <C-c> "+y
-imap <C-v> "+gP
 
 nmap <silent> <leader>ex :!start explorer %:p:h<CR>
 
