@@ -28,10 +28,12 @@ alias gif='git diff'
 alias cd.='cd ..'
 alias cd..='cd ../../'
 alias cd...='cd ../../../'
+alias gitrev = 'git review `git symbolic-ref --short -q HEAD 2>/dev/null`'
+alias gitpush = 'git push origin HEAD:refs/for/`git symbolic-ref --short -q HEAD 2>/dev/null`'
 # Source global definitions
-#if [ -f /etc/bashrc ]; then
-#    . /etc/bashrc
-#fi
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
 
 #PS1='\[\e[32m\][\u@\h \W]#\[\e[m\] '
 #PS1="$green[$usr$green@$tim>$dir$green]`$(git-branch-prompt)`\\$\e[m"
