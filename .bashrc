@@ -28,8 +28,8 @@ alias gif='git diff'
 alias cd.='cd ..'
 alias cd..='cd ../../'
 alias cd...='cd ../../../'
-alias gitrev = 'git review `git symbolic-ref --short -q HEAD 2>/dev/null`'
-alias gitpush = 'git push origin HEAD:refs/for/`git symbolic-ref --short -q HEAD 2>/dev/null`'
+alias gitrev='git review `git symbolic-ref --short -q HEAD 2>/dev/null`'
+alias gitpush='git push origin HEAD:refs/for/`git symbolic-ref --short -q HEAD 2>/dev/null`'
 # Source global definitions
 if [ -f /etc/bashrc ]; then
     . /etc/bashrc
