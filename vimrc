@@ -60,6 +60,7 @@ nnoremap  yf :let @+=expand("%:t")<CR>
 nnoremap  yp :let @+=expand("%:p")<CR>
 autocmd FileType cpp nnoremap <buffer> <localleader>/ I//<esc>
 autocmd FileType c nnoremap <buffer> <localleader>/ I//<esc>
+autocmd FileType sh nnoremap <buffer> <localleader>/ I#<esc>
 "}}}
 "设置切换Buffer快捷键"
 nnoremap <C-left> :bn<CR>
@@ -87,7 +88,7 @@ let g:Lf_WildIgnore = {
     " 在终端启动vim时，共享NERDTree
     let g:nerdtree_tabs_open_on_console_startup=1
     " 忽略文件
-    let NERDTreeIgnore=['\.pyc','\~$','\.swp','\.a','\.o']
+    let NERDTreeIgnore=['\.pyc','\~$','\.swp']
     " 显示书签列表
     let NERDTreeShowBookmarks=1
 "}
@@ -116,6 +117,14 @@ if filereadable(glob("$VIMRUNTIME/colors/imscolo.vim"))
     colorscheme imscolo
 endif
 
+if has("gui_running")
+    if filereadable(glob("$VIMRUNTIME/colors/Tomorrow-Night.vim"))
+        nnoremap <localleader>ms :vsplit $VIMRUNTIME/colors/Tomorrow-Night.vim<cr>
+        set guifont=Monospace\ 11
+        colorscheme Tomorrow-Night
+    endif
+endif
+
 if has("syntax")
     syntax on
 endif
@@ -134,7 +143,7 @@ endif
 "}
 "diff setting{
 set diffopt=vertical,context:4
-nnoremap  <localleader>df :bufdo diffs<cr>
+nnoremap  <localleader>df :bufdo diffthis<cr>
 "}
 
 set showmatch           " Show matching brackets.
