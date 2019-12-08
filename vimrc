@@ -63,8 +63,8 @@ autocmd FileType c nnoremap <buffer> <localleader>/ I//<esc>
 autocmd FileType sh nnoremap <buffer> <localleader>/ I#<esc>
 "}}}
 "设置切换Buffer快捷键"
-nnoremap <C-left> :bn<CR>
-nnoremap <C-right> :bp<CR>
+nnoremap <C-left> :bp<CR>
+nnoremap <C-right> :bn<CR>
 nnoremap vv ^vg_
 
 nmap <silent> <leader>ex :!start explorer %:p:h<CR>
