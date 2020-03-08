@@ -20,6 +20,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'suan/vim-instant-markdown'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'mattn/emmet-vim'
 call vundle#end()            " required
 filetype plugin indent on    " required
 " Brief help
@@ -44,7 +45,7 @@ nnoremap  <localleader>s  :%s/
 nnoremap  <localleader>sw :%s/<c-r><c-w>/
 nnoremap  <localleader><Space> :%s/ *$//g<cr>
 nnoremap  <localleader>sh  :bot term ++rows=8 bash<cr>
-nnoremap  <localleader>b :<C-u>call gitblame#echo()<CR> 
+nnoremap  <localleader>b :<C-u>call gitblame#echo()<CR>
 vnoremap  <localleader>=  ggvG=
 nnoremap  <localleader>y  byw
 nnoremap  <localleader>yy "+yy<cr>
@@ -93,7 +94,7 @@ let g:Lf_WildIgnore = {
     let NERDTreeShowBookmarks=1
 "}
 
-"cscope setting{ 
+"cscope setting{
 if has("cscope")
     set csprg=cscope
     set cscopetag
@@ -102,7 +103,7 @@ if has("cscope")
         cs add cscope.out ./ -C
     endif
     set cscopeverbose
-    nnoremap  <c-@> :cs f  
+    nnoremap  <c-@> :cs f
     nnoremap  <localleader>2c :cs find c <C-R>=expand("<cword>")<CR><CR>
     nnoremap  <localleader>2s :cs find s <C-R>=expand("<cword>")<CR><CR>
     nnoremap  <localleader>2t :cs find t <C-R>=expand("<cword>")<CR><CR>
@@ -137,7 +138,7 @@ endif
     :set pastetoggle=<F6>
 "}
 
-"fold{ 
+"fold{
     set foldcolumn=0
     setlocal foldlevel=0
 "}
@@ -153,16 +154,16 @@ set mouse=a
 set t_Co=256 "number of colors"
 set noswapfile
 set nobackup        "no backup
-set autoread 
+set autoread
 set autowrite       " Automatically save before commands like :next and :make
 set hidden          " Hide buffers when they are abandoned
 set number
 set ruler           "show cursor site in right below
-set tabstop=4      
+set tabstop=4
 set shiftwidth=4
 set incsearch       " The screen will be updated often,with typing pattern
 set hlsearch        " highlight all its matches.
-set autoindent 
+set autoindent
 set cindent
 set completeopt=longest,menu
 set wildmode=list:longest
@@ -188,7 +189,7 @@ inoremap ' ''<ESC>i
 "}
 
 "Ycm Config{
-let g:ycm_show_diagnostics_ui = 0  "switch of symtax diagnostic
+let g:ycm_show_diagnostics_ui = 1  "switch of symtax diagnostic
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
 let g:ycm_collect_identifiers_from_tag_files = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
@@ -210,7 +211,7 @@ set completeopt=preview
 "}}}
 "map sys clipboard{
 if has("clipboard")
-    vnoremap  y    "+y 
+    vnoremap  y    "+y
     vnoremap  p    "+p
 endif
 set clipboard+=unnamedplus
@@ -219,19 +220,19 @@ set clipboard+=unnamedplus
 "term gdb debug{
 function! TermdebugAdd()
     exe "packadd termdebug"
-    :Termdebug 
+    :Termdebug
 endfunction
 nnoremap  <localleader>d :call TermdebugAdd()<cr>
 "}
 
-"{ 
+"{
     nnoremap > V>
     nnoremap <s-tab> V<
     vnoremap > >gv
     vnoremap <s-tab> <gv
 "}
 
-"minibufexplore settings{ 
+"minibufexplore settings{
     let g:miniBufExplMapWindowNavVim = 1
     let g:miniBufExplMapWindowNavArrows = 2
     let g:miniBufExplMapCTabSwitchBufs = 1
