@@ -146,7 +146,7 @@ endif
 set diffopt=vertical,context:4
 nnoremap  <localleader>df :bufdo diffthis<cr>
 "}
-
+set encoding=utf-8
 set showmatch           " Show matching brackets.
 "set ignorecase     " Do case insensitive matching
 "set smartcase      " Do smart case matching
