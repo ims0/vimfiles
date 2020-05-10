@@ -81,6 +81,14 @@ hi StorageClass  ctermfg=208
 hi Tag           ctermfg=161
 hi Title         ctermfg=166
 hi String        ctermfg=166
+"Ycm color"
+"For the signs in the Vim gutter, the relevant groups are:
+hi SyntasticErrorSign    ctermfg=1      ctermbg=11  cterm=bold
+hi SyntasticWarningSign  ctermfg=11     ctermbg=0  cterm=bold
+"The syntax groups used to highlight regions of text with errors/warnings:
+hi SyntasticError    ctermfg=9      ctermbg=0  cterm=bold
+hi SyntasticWarning  ctermfg=11     ctermbg=8  cterm=bold
+
 
 augroup hightlightFun
     autocmd!
