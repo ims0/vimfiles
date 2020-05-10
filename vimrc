@@ -21,6 +21,8 @@ Plugin 'plasticboy/vim-markdown'
 Plugin 'suan/vim-instant-markdown'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'mattn/emmet-vim'
+Plugin 'inkarkat/vim-ingo-library'
+Plugin 'inkarkat/vim-mark'
 call vundle#end()            " required
 filetype plugin indent on    " required
 " Brief help
@@ -78,7 +80,27 @@ let g:Lf_WildIgnore = {
         \ 'file': ['*.sw?','~$*','*.ba*','*.exe','*.o','*.a','*.so','*.py[co]']
         \}
 "}
+"Ycm Config{
+let g:ycm_show_diagnostics_ui = 1  "switch of symtax diagnostic
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
+let g:ycm_collect_identifiers_from_tag_files = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_confirm_extra_conf=0
+let g:ycm_complete_in_comments=0
+let g:ycm_error_symbol='>>'
+let g:ycm_semantic_triggers = { 'c' : ['->', '.']}
+let g:ycm_key_list_select_completion = ['<Down>']
+set completeopt=preview
+"YcmCompleter cmd
+"https://github.com/ycm-core/YouCompleteMe#goto-commands"
+nnoremap  <localleader>gf :YcmCompleter GoToDefinitionElseDeclaration<cr>
+nnoremap  <localleader>dc :YcmCompleter GoToDeclaration<cr>
+nnoremap  <localleader>df :YcmCompleter GoToDefinition<cr>
+nnoremap  <localleader>go :YcmCompleter GoTo<cr>
+nnoremap  <localleader>gp :YcmCompleter GetParent<cr>
+nnoremap  <localleader>ix :YcmCompleter FixIt<cr>
 
+"}
 "NERDtree{
     nnoremap  <localleader>nf :NERDTreeFind<cr>
     " 改变nerdtree的箭头
@@ -188,18 +210,7 @@ inoremap " ""<ESC>i
 inoremap ' ''<ESC>i
 "}
 
-"Ycm Config{
-let g:ycm_show_diagnostics_ui = 1  "switch of symtax diagnostic
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
-let g:ycm_collect_identifiers_from_tag_files = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_confirm_extra_conf=0
-let g:ycm_complete_in_comments=0
-let g:ycm_error_symbol='>>'
-let g:ycm_semantic_triggers = { 'c' : ['->', '.']}
-let g:ycm_key_list_select_completion = ['<Down>']
-set completeopt=preview
-"}
+
 
 "{{{ map ctags,srcExpl,NerdTree:F9,F10,F12
     " Open and close the taglist.vim separately
