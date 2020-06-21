@@ -99,6 +99,7 @@ nnoremap  <localleader>df :YcmCompleter GoToDefinition<cr>
 nnoremap  <localleader>go :YcmCompleter GoTo<cr>
 nnoremap  <localleader>gp :YcmCompleter GetParent<cr>
 nnoremap  <localleader>ix :YcmCompleter FixIt<cr>
+nnoremap  <localleader>= :YcmC Format<cr>
 
 "}
 "NERDtree{
@@ -135,16 +136,33 @@ if has("cscope")
 endif
 "}
 
-if filereadable(glob("$VIMRUNTIME/colors/imscolo.vim"))
-    nnoremap <localleader>ms :vsplit $VIMRUNTIME/colors/imscolo.vim<cr>
-    colorscheme imscolo
-endif
+
+"设置文件的代码形式
+set encoding=utf-8
+set termencoding=utf-8
+set fileencoding=utf-8
+set fileencodings=ucs-bom,utf-8,chinese,cp936
 
 if has("gui_running")
+    "vim的菜单乱码解决：
+    source $VIMRUNTIME/delmenu.vim
+    source $VIMRUNTIME/menu.vim
+    "vim提示信息乱码的解决
+    language messages zh_CN.utf-8
+    set guioptions-=T
+    set guioptions-=m
+    set guioptions-=L
+    set guioptions-=r
+    set guioptions-=b
     if filereadable(glob("$VIMRUNTIME/colors/Tomorrow-Night.vim"))
         nnoremap <localleader>ms :vsplit $VIMRUNTIME/colors/Tomorrow-Night.vim<cr>
-        set guifont=Monospace\ 11
+        set guifont=Consolas:h13:cANSI
         colorscheme Tomorrow-Night
+    endif
+else
+    if filereadable(glob("$VIMRUNTIME/colors/imscolo.vim"))
+        nnoremap <localleader>ms :vsplit $VIMRUNTIME/colors/imscolo.vim<cr>
+        colorscheme imscolo
     endif
 endif
 
@@ -168,7 +186,7 @@ endif
 set diffopt=vertical,context:4
 nnoremap  <localleader>df :bufdo diffthis<cr>
 "}
-set encoding=utf-8
+
 set showmatch           " Show matching brackets.
 "set ignorecase     " Do case insensitive matching
 "set smartcase      " Do smart case matching
