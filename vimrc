@@ -59,6 +59,7 @@ nnoremap  <localleader>sv :source$MYVIMRC<cr>
 nnoremap  <localleader>" viw<esc>a"<esc>hbi"<esc>lel
 nnoremap  <localleader>' viw<esc>a'<esc>hbi'<esc>lel
 nnoremap  <localleader>e :!echo <c-r>"
+nnoremap  <localleader>*  bi*<esc>ea*<esc>
 nnoremap  yf :let @+=expand("%:t")<CR>
 nnoremap  yp :let @+=expand("%:p")<CR>
 autocmd FileType cpp nnoremap <buffer> <localleader>/ I//<esc>
