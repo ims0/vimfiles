@@ -1,4 +1,4 @@
-let maplocalleader = " "
+	let maplocalleader = " "
 set nocompatible
 
 "Vundle{{{
