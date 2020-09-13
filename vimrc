@@ -83,6 +83,10 @@ let g:Lf_WildIgnore = {
 "}
 "Ycm Config{
 let g:ycm_show_diagnostics_ui = 1  "switch of symtax diagnostic
+"default close ycm hover
+let g:ycm_auto_hover = "" 
+"manually trigger ycm hover
+nmap <localleader>y <plug>(YCMHover)
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
 let g:ycm_collect_identifiers_from_tag_files = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
@@ -94,7 +98,7 @@ let g:ycm_key_list_select_completion = ['<Down>']
 set completeopt=preview
 "YcmCompleter cmd
 "https://github.com/ycm-core/YouCompleteMe#goto-commands"
-nnoremap  <localleader>gf :YcmCompleter GoToDefinitionElseDeclaration<cr>
+nnoremap  gf :YcmCompleter GoToDefinitionElseDeclaration<cr>
 nnoremap  <localleader>dc :YcmCompleter GoToDeclaration<cr>
 nnoremap  <localleader>df :YcmCompleter GoToDefinition<cr>
 nnoremap  <localleader>go :YcmCompleter GoTo<cr>
