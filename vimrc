@@ -1,4 +1,4 @@
-	let maplocalleader = " "
+    let maplocalleader = " "
 set nocompatible
 
 "Vundle{{{
@@ -131,7 +131,9 @@ if has("cscope")
         cs add cscope.out ./ -C
     endif
     set cscopeverbose
-    nnoremap  <c-@> :cs f
+	"The default value is "" (don't use quickfix anyway)
+	set cscopequickfix=""
+    nnoremap  <c-@> :cs f 
     nnoremap  <localleader>2c :cs find c <C-R>=expand("<cword>")<CR><CR>
     nnoremap  <localleader>2s :cs find s <C-R>=expand("<cword>")<CR><CR>
     nnoremap  <localleader>2t :cs find t <C-R>=expand("<cword>")<CR><CR>
