@@ -1,4 +1,5 @@
-    let maplocalleader = " "
+:if version >100
+let maplocalleader = " "
 set nocompatible
 
 "Vundle{{{
@@ -408,3 +409,5 @@ func! SetTitle()
 endfunc
 autocmd BufRead *.h set filetype=cpp
 "}
+
+:endif
