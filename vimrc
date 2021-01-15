@@ -361,12 +361,12 @@ au BufNewFile,BufRead *.h set filetype=h
 autocmd BufNewFile *.cpp,*.c,*.h,*.sh,  exec ":call SetTitle()"
 func! SetTitle()
     if &filetype == 'sh'
-        call setline(1,          "\##########################################################")
-        call append(line("."),   "\# File Name: ".expand("%"))
-        call append(line(".")+1, "\# Author: ims")
-        call append(line(".")+2, "\# Created Time: ".strftime("%c"))
-        call append(line(".")+3, "\##########################################################")
-        call append(line(".")+4, "\#!/bin/bash")
+        call setline(1,          "\#!/bin/bash")
+        call append(line("."),   "\##########################################################")
+        call append(line(".")+1, "\# File Name: ".expand("%"))
+        call append(line(".")+2, "\# Author: ims")
+        call append(line(".")+3, "\# Created Time: ".strftime("%c"))
+        call append(line(".")+4, "\##########################################################")
         call append(line(".")+5, "")
     else
         call setline(1,          "/*********************************************************")
