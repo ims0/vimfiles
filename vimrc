@@ -20,7 +20,7 @@ Plugin 'mbbill/code_complete'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'suan/vim-instant-markdown'
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 Plugin 'mattn/emmet-vim'
 Plugin 'inkarkat/vim-ingo-library'
 Plugin 'inkarkat/vim-mark'
@@ -85,6 +85,15 @@ let g:Lf_WildIgnore = {
         \}
 "}
 "Ycm Config{
+" install
+" git clone https://github.com/ycm-core/YouCompleteMe.git  ~/.vim/bundle/
+" 初始化本地配置文件
+" git submodule init
+" 检出父仓库列出的commit
+" git submodule update
+
+
+
 let g:ycm_show_diagnostics_ui = 1  "switch of symtax diagnostic
 "default close ycm hover
 let g:ycm_auto_hover = "" 
@@ -201,7 +210,7 @@ set showmatch           " Show matching brackets.
 "set ignorecase     " Do case insensitive matching
 "set smartcase      " Do smart case matching
 set mouse=a
-set t_Co=256 "number of colors"
+set t_Co=256        "number of colors"
 set noswapfile
 set nobackup        "no backup
 set autoread
