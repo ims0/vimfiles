@@ -6,6 +6,7 @@ set nocompatible
 "Set up Vundle:
 "git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 filetype off
+set rtp+=/usr/local/opt/fzf
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
@@ -51,10 +52,9 @@ nnoremap  <localleader>sw :%s/<c-r><c-w>/
 nnoremap  <localleader><Space> :%s/ *$//g<cr>
 nnoremap  <localleader>sh  :bot term ++rows=8 bash<cr>
 nnoremap  <localleader>b :<C-u>call gitblame#echo()<CR>
-vnoremap  <localleader>=  ggvG=
 nnoremap  <localleader>y  byw
-nnoremap  <localleader>yy "+yy<cr>
-nnoremap  <localleader>yw "+yw<cr>
+nnoremap  yy "*yy<cr>
+nnoremap  yw "*yw<cr>
 nnoremap  <localleader>/ :/\<\>
 nnoremap  <localleader>? :?\<\>
 nnoremap  <localleader>ev :vsplit$MYVIMRC<cr>
@@ -63,8 +63,8 @@ nnoremap  <localleader>" viw<esc>a"<esc>hbi"<esc>lel
 nnoremap  <localleader>' viw<esc>a'<esc>hbi'<esc>lel
 nnoremap  <localleader>e :!echo <c-r>"
 nnoremap  <localleader>*  bi*<esc>ea*<esc>
-nnoremap  yf :let @+=expand("%:t")<CR>
-nnoremap  yp :let @+=expand("%:p")<CR>
+nnoremap  yf :let @*=expand("%:t")<CR>
+nnoremap  yp :let @*=expand("%:p")<CR>
 autocmd FileType cpp nnoremap <buffer> <localleader>/ I//<esc>
 autocmd FileType c nnoremap <buffer> <localleader>/ I//<esc>
 autocmd FileType sh nnoremap <buffer> <localleader>/ I#<esc>
@@ -134,8 +134,8 @@ if has("cscope")
         cs add cscope.out ./ -C
     endif
     set cscopeverbose
-	"The default value is "" (don't use quickfix anyway)
-	set cscopequickfix=""
+    "The default value is "" (don't use quickfix anyway)
+    set cscopequickfix=""
     nnoremap  <c-@> :cs f 
     nnoremap  <localleader>2c :cs find c <C-R>=expand("<cword>")<CR><CR>
     nnoremap  <localleader>2s :cs find s <C-R>=expand("<cword>")<CR><CR>
@@ -250,10 +250,9 @@ inoremap ' ''<ESC>i
 "}}}
 "map sys clipboard{
 if has("clipboard")
-    vnoremap  y    "+y
-    vnoremap  p    "+p
+    vnoremap  y    "*y
+    vnoremap  p    "*p
 endif
-set clipboard+=unnamedplus
 "}
 "
 "term gdb debug{
