@@ -53,8 +53,8 @@ nnoremap  <localleader>sh  :bot term ++rows=8 bash<cr>
 nnoremap  <localleader>b :<C-u>call gitblame#echo()<CR>
 vnoremap  <localleader>=  ggvG=
 nnoremap  <localleader>y  byw
-nnoremap  <localleader>yy "+yy<cr>
-nnoremap  <localleader>yw "+yw<cr>
+nnoremap  <localleader>yy "+yy
+nnoremap  <localleader>yw "+yw
 nnoremap  <localleader>/ :/\<\>
 nnoremap  <localleader>? :?\<\>
 nnoremap  <localleader>ev :vsplit$MYVIMRC<cr>
