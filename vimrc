@@ -1,14 +1,14 @@
 :if version >100
 let maplocalleader = " "
 set nocompatible
-
+let g:vundle_default_github_url="github.com.cnpmjs.org"
 "Vundle{{{
 "Set up Vundle:
-"git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+"git clone https://github.com/ims0/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
+Plugin 'ims0/Vundle.vim'
 Plugin 'Yggdroot/LeaderF'
 Plugin 'vim-scripts/cscope.vim'
 Plugin 'fholgado/minibufexpl.vim'
@@ -20,12 +20,14 @@ Plugin 'mbbill/code_complete'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'suan/vim-instant-markdown'
-"Plugin 'Valloric/YouCompleteMe'
-Plugin 'mattn/emmet-vim'
 Plugin 'inkarkat/vim-ingo-library'
 Plugin 'inkarkat/vim-mark'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
+"html
+"Plugin 'mattn/emmet-vim'
+"Plugin 'Valloric/YouCompleteMe'
+
 call vundle#end()            " required
 filetype plugin indent on    " required
 " Brief help
