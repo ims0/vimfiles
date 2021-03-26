@@ -24,9 +24,13 @@ Plugin 'inkarkat/vim-ingo-library'
 Plugin 'inkarkat/vim-mark'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
-"html
+"{lua
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-lua-ftplugin'
+Plugin 'vim-scripts/luainspect.vim'
+"}
+Plugin 'Valloric/YouCompleteMe'
 "Plugin 'mattn/emmet-vim'
-"Plugin 'Valloric/YouCompleteMe'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
