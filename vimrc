@@ -107,7 +107,7 @@ function! Leader_r()
         :%y"
         :@"
     else
-        Leaderf rg 
+        echo 'only can run shell/vim'
     endif
 endfunction
 
@@ -115,6 +115,7 @@ nnoremap  <localleader>r :call Leader_r()<cr>
 
 "LeaderF cfg"{
 nnoremap  <localleader>f :LeaderfFile<cr>
+nnoremap  <localleader>g :Leaderf rg<cr>
 nnoremap  <localleader>bu :LeaderfBuffer<cr>
 let g:Lf_WildIgnore = {
         \ 'dir': ['.svn','.git','CMakeFiles','tools'],
