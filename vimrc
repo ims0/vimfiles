@@ -42,6 +42,29 @@ nnoremap  <localleader>in :PluginInstall    <cr>
 nnoremap  <localleader>li :PluginList      <cr>
 "}}}
 
+"sysdiff"{
+""let sys_type = system("uname")
+""if sys_type =~? "Darwin*"
+""endif
+if has("clipboard")
+    if has("macunix")
+        nnoremap  yy "*yy
+        nnoremap  yw "*yw
+        nnoremap  yf :let @*=expand("%:t")<CR>
+        nnoremap  yp :let @*=expand("%:p")<CR>
+        vnoremap  y  "*y
+        vnoremap  p  "*p
+    elseif has('unix')
+        nnoremap  yy "+yy
+        nnoremap  yw "+yw
+        nnoremap  yf :let @+=expand("%:t")<CR>
+        nnoremap  yp :let @+=expand("%:p")<CR>
+        vnoremap  y  "+y
+        vnoremap  p  "+p
+    endif
+endif
+"}"
+
 "my shortcut key{{{
 inoremap  jk <esc>
 nnoremap  <c-s>  :update<cr>:%s/\t/    /g<cr>
@@ -57,10 +80,7 @@ nnoremap  <localleader>sw :%s/<c-r><c-w>/
 nnoremap  <localleader><Space> :%s/ *$//g<cr>
 nnoremap  <localleader>sh  :bot term ++rows=8 bash<cr>
 nnoremap  <localleader>b :<C-u>call gitblame#echo()<CR>
-vnoremap  <localleader>=  ggvG=
 nnoremap  <localleader>y  byw
-nnoremap  <localleader>yy "+yy
-nnoremap  <localleader>yw "+yw
 nnoremap  <localleader>/ :/\<\>
 nnoremap  <localleader>? :?\<\>
 nnoremap  <localleader>ev :vsplit$MYVIMRC<cr>
@@ -69,8 +89,6 @@ nnoremap  <localleader>" viw<esc>a"<esc>hbi"<esc>lel
 nnoremap  <localleader>' viw<esc>a'<esc>hbi'<esc>lel
 nnoremap  <localleader>e :!echo <c-r>"
 nnoremap  <localleader>*  bi*<esc>ea*<esc>
-nnoremap  yf :let @+=expand("%:t")<CR>
-nnoremap  yp :let @+=expand("%:p")<CR>
 autocmd FileType cpp nnoremap <buffer> <localleader>/ I//<esc>
 autocmd FileType c nnoremap <buffer> <localleader>/ I//<esc>
 autocmd FileType sh nnoremap <buffer> <localleader>/ I#<esc>
@@ -123,7 +141,7 @@ nnoremap  <localleader>go :YcmCompleter GoTo<cr>
 nnoremap  <localleader>gp :YcmCompleter GetParent<cr>
 nnoremap  <localleader>ix :YcmCompleter FixIt<cr>
 nnoremap  <localleader>= :YcmC Format<cr>
-
+vnoremap  <localleader>=  ggvG=
 "}
 "NERDtree{
     nnoremap  <localleader>nf :NERDTreeFind<cr>
@@ -149,8 +167,8 @@ if has("cscope")
         cs add cscope.out ./ -C
     endif
     set cscopeverbose
-	"The default value is "" (don't use quickfix anyway)
-	set cscopequickfix=""
+    "The default value is "" (don't use quickfix anyway)
+    set cscopequickfix=""
     nnoremap  <c-@> :cs f 
     nnoremap  <localleader>2c :cs find c <C-R>=expand("<cword>")<CR><CR>
     nnoremap  <localleader>2s :cs find s <C-R>=expand("<cword>")<CR><CR>
@@ -263,13 +281,7 @@ inoremap ' ''<ESC>i
     " Open and close the NERD_tree.vim separately
     nnoremap <F12>  :TrinityToggleNERDTree<CR>
 "}}}
-"map sys clipboard{
-if has("clipboard")
-    vnoremap  y    "+y
-    vnoremap  p    "+p
-endif
-set clipboard+=unnamedplus
-"}
+
 "
 "term gdb debug{
 function! TermdebugAdd()
