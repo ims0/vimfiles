@@ -96,9 +96,22 @@ autocmd FileType sh nnoremap <buffer> <localleader>/ I#<esc>
 "设置切换Buffer快捷键"
 nnoremap <C-left> :bp<CR>
 nnoremap <C-right> :bn<CR>
+"选择当前行，不包含前置空格"
 nnoremap vv ^vg_
 
-nmap <silent> <leader>ex :!start explorer %:p:h<CR>
+function! Leader_r()
+    if &filetype == 'sh'
+        :set noautochdir<cr>
+        :!bash %
+    elseif &filetype == 'vim'
+        :%y"
+        :@"
+    else
+        Leaderf rg 
+    endif
+endfunction
+
+nnoremap  <localleader>r :call Leader_r()<cr>
 
 "LeaderF cfg"{
 nnoremap  <localleader>f :LeaderfFile<cr>
@@ -344,13 +357,6 @@ endfunc
 nnoremap <F3> :call RefreshCscope()<cr>
 "}
 
-"exit run shell for long time{
-function! RunShell()
-    :set noautochdir<cr>
-    :!sh %
-endfunction
-nnoremap  <localleader>r :call RunShell()<cr>
-"}
 "show run result{
 function! ExecProm()
     bufdo if expand("%")=="runResult" |bd runResult|endif
