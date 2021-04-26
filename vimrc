@@ -27,7 +27,7 @@ Plugin 'junegunn/fzf.vim'
 "{lua
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-lua-ftplugin'
-Plugin 'vim-scripts/luainspect.vim'
+"Plugin 'vim-scripts/luainspect.vim'
 "}
 Plugin 'Valloric/YouCompleteMe'
 "Plugin 'mattn/emmet-vim'
@@ -42,6 +42,10 @@ nnoremap  <localleader>in :PluginInstall    <cr>
 nnoremap  <localleader>li :PluginList      <cr>
 "}}}
 
+""let &t_ti.="\e[1 q"
+""let &t_SI.="\e[5 q"
+""let &t_EI.="\e[1 q"
+""let &t_te.="\e[0 q"
 "sysdiff"{
 ""let sys_type = system("uname")
 ""if sys_type =~? "Darwin*"
@@ -62,6 +66,9 @@ if has("clipboard")
         vnoremap  y  "+y
         vnoremap  p  "+p
     endif
+else
+        nnoremap  yf :let @"=expand("%:t")<CR>
+        nnoremap  yp :let @"=expand("%:p")<CR>
 endif
 "}"
 
@@ -89,6 +96,8 @@ nnoremap  <localleader>" viw<esc>a"<esc>hbi"<esc>lel
 nnoremap  <localleader>' viw<esc>a'<esc>hbi'<esc>lel
 nnoremap  <localleader>e :!echo <c-r>"
 nnoremap  <localleader>*  bi*<esc>ea*<esc>
+nnoremap  <localleader>ma  :set mouse=a<cr>
+nnoremap  <localleader>mv  :set mouse=v<cr>
 autocmd FileType cpp nnoremap <buffer> <localleader>/ I//<esc>
 autocmd FileType c nnoremap <buffer> <localleader>/ I//<esc>
 autocmd FileType sh nnoremap <buffer> <localleader>/ I#<esc>
@@ -106,6 +115,12 @@ function! Leader_r()
     elseif &filetype == 'vim'
         :%y"
         :@"
+    elseif &filetype == 'lua'
+        :set noautochdir<cr>
+        :!lua %
+    elseif &filetype == 'python'
+        :set noautochdir<cr>
+        :!python %
     else
         echo 'only can run shell/vim'
     endif
@@ -115,7 +130,8 @@ nnoremap  <localleader>r :call Leader_r()<cr>
 
 "LeaderF cfg"{
 nnoremap  <localleader>f :LeaderfFile<cr>
-nnoremap  <localleader>g :Leaderf rg<cr>
+nnoremap  <localleader>g :Leaderf rg 
+nnoremap  <localleader>gg :Leaderf rg <c-r><c-w><cr>
 nnoremap  <localleader>bu :LeaderfBuffer<cr>
 let g:Lf_WildIgnore = {
         \ 'dir': ['.svn','.git','CMakeFiles','tools'],
@@ -375,6 +391,8 @@ function! ExecProm()
     if &filetype == 'python'
         let runResu=runResLine .system('python3 '.expand('%'))
     endif
+    if &filetype == 'lua'
+        let runResu=runResLine .system('lua '.expand('%'))
     if &filetype == 'sh'
         let runResu=runResLine .system('sh '.expand('%'))
     endif
