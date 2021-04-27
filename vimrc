@@ -54,19 +54,21 @@ if has("clipboard")
     if has("macunix")
         nnoremap  yy "*yy
         nnoremap  yw "*yw
-        nnoremap  yf :let @*=expand("%:t")<CR>
-        nnoremap  yp :let @*=expand("%:p")<CR>
         vnoremap  y  "*y
         vnoremap  p  "*p
+        nnoremap  yf :let @*=expand("%:t")<CR>
+        nnoremap  yp :let @*=expand("%:p")<CR>
     elseif has('unix')
         nnoremap  yy "+yy
         nnoremap  yw "+yw
-        nnoremap  yf :let @+=expand("%:t")<CR>
-        nnoremap  yp :let @+=expand("%:p")<CR>
         vnoremap  y  "+y
         vnoremap  p  "+p
+        nnoremap  yf :let @+=expand("%:t")<CR>
+        nnoremap  yp :let @+=expand("%:p")<CR>
     endif
 else
+	    vnoremap  y  "1y
+        vnoremap  p  "1p
         nnoremap  yf :let @"=expand("%:t")<CR>
         nnoremap  yp :let @"=expand("%:p")<CR>
 endif
