@@ -31,7 +31,6 @@ Plugin 'xolox/vim-lua-ftplugin'
 "}
 Plugin 'Valloric/YouCompleteMe'
 "Plugin 'mattn/emmet-vim'
-
 call vundle#end()            " required
 filetype plugin indent on    " required
 " Brief help
@@ -67,7 +66,7 @@ if has("clipboard")
         nnoremap  yp :let @+=expand("%:p")<CR>
     endif
 else
-	    vnoremap  y  "1y
+        vnoremap  y  "1y
         vnoremap  p  "1p
         nnoremap  yf :let @"=expand("%:t")<CR>
         nnoremap  yp :let @"=expand("%:p")<CR>
@@ -118,13 +117,11 @@ function! Leader_r()
         :%y"
         :@"
     elseif &filetype == 'lua'
-        :set noautochdir<cr>
         :!lua %
     elseif &filetype == 'python'
-        :set noautochdir<cr>
         :!python %
     else
-        echo 'only can run shell/vim'
+        return
     endif
 endfunction
 
@@ -385,18 +382,17 @@ function! ExecProm()
     if &filetype == 'c'
         let compileResu = system('gcc '.expand('%').' -o '.expand('%<'))
         let runResu=headtitle.compileResu.runResLine .system('./'.expand('%<'))
-    endif
-    if &filetype == 'cpp'
+    elseif &filetype == 'cpp'
         let compileResu = system('g++ -std=c++11 '.expand('%').' -lpthread -o '.expand('%<'))
         let runResu=headtitle.compileResu.runResLine .system('./'.expand('%<'))
-    endif
-    if &filetype == 'python'
+    elseif &filetype == 'python'
         let runResu=runResLine .system('python3 '.expand('%'))
-    endif
-    if &filetype == 'lua'
+    elseif &filetype == 'lua'
         let runResu=runResLine .system('lua '.expand('%'))
-    if &filetype == 'sh'
+    elseif &filetype == 'sh'
         let runResu=runResLine .system('sh '.expand('%'))
+    else
+        return
     endif
 
     bot 9sp runResult
