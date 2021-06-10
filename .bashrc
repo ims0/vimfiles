@@ -47,12 +47,12 @@ esac
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-    # We have color support; assume it's compliant with Ecma-48
-    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-    # a case would tend to support setf rather than setaf.)
-    color_prompt=yes
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
     else
-    color_prompt=
+	color_prompt=
     fi
 fi
 
@@ -132,7 +132,7 @@ ulimit -c unlimited
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
-alias gis='git st'
+alias gis='git status'
 alias gia='git add'
 alias gif='git diff'
 alias cd.='cd ..'
@@ -141,4 +141,5 @@ alias cd...='cd ../../../'
 alias gitrev='git review `git symbolic-ref --short -q HEAD 2>/dev/null`'
 alias gitpush='git push origin HEAD:refs/for/`git symbolic-ref --short -q HEAD 2>/dev/null`'
 
-PS1='\[\e[32m\][\[\e[33m\]\u\[\e[32m\]@\t@\[\e[33m\]\W\[\e[32m\]]$(git-br)\[\e[32;1m\]\$\[\e[m\]'
+PS1='\[\e[32m\][\[\e[33m\]\u\[\e[32m\]@\t@\[\e[33m\]\W\[\e[32m\]]$(git-br)&$(jobs |wc -l)\[\e[32;1m\]\$\[\e[m\]'
+
