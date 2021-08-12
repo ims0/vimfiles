@@ -10,7 +10,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'ims0/Vundle.vim'
 Plugin 'Yggdroot/LeaderF'
-Plugin 'vim-scripts/cscope.vim'
+"Plugin 'vim-scripts/cscope.vim'
 Plugin 'fholgado/minibufexpl.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
@@ -430,23 +430,27 @@ func! SetTitle()
     endif
 
     if &filetype == 'c'
-        call append(line(".")+5, "#include<stdio.h>")
-        call append(line(".")+6, "#include<string.h>")
-        call append(line(".")+7, "")
+        call append(line(".")+5, "#include <stdio.h>")
+        call append(line(".")+6, "#include <string.h>")
+        call append(line(".")+7, "#include <stdlib.h>")
+        call append(line(".")+8, "#include <unistd.h>")
+        call append(line(".")+9, "")
     endif
 
     if &filetype == 'cpp'
-        call append(line(".")+5, "#include<iostream>")
-        call append(line(".")+6, "using namespace std;")
-        call append(line(".")+7, "")
+        call append(line(".")+5, "#include <iostream>")
+        call append(line(".")+6, "#include <string>")
+        call append(line(".")+7, "#include <vector>")
+        call append(line(".")+8, "using namespace std;")
+        call append(line(".")+9, "")
     endif
 
     if &filetype == 'cpp' || &filetype == 'c'
-        call append(line(".")+8, "int main()")
-        call append(line(".")+9, "{")
-        call append(line(".")+10, "\t")
-        call append(line(".")+11, "\treturn 0;")
-        call append(line(".")+12, "}")
+        call append(line(".")+10, "int main()")
+        call append(line(".")+11, "{")
+        call append(line(".")+12, "\t")
+        call append(line(".")+13, "\treturn 0;")
+        call append(line(".")+14, "}")
     endif
     if &filetype == 'h'
         let fileName = strpart(expand("%"),0,strlen(expand("%"))-2)
@@ -459,7 +463,7 @@ func! SetTitle()
         set filetype=cpp
     endif
 
-    normal 12G"
+    normal 14G"
 endfunc
 autocmd BufRead *.h set filetype=cpp
 "}
