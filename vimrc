@@ -1,7 +1,7 @@
 :if version >100
 let maplocalleader = " "
 set nocompatible
-let g:vundle_default_github_url="github.com.cnpmjs.org"
+let g:vundle_default_github_url="github.com"
 "Vundle{{{
 "Set up Vundle:
 "git clone https://github.com/ims0/Vundle.vim.git ~/.vim/bundle/Vundle.vim
@@ -10,6 +10,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'ims0/Vundle.vim'
 Plugin 'Yggdroot/LeaderF'
+"Plugin 'grailbio/bazel-compilation-database'
 "Plugin 'vim-scripts/cscope.vim'
 Plugin 'fholgado/minibufexpl.vim'
 Plugin 'scrooloose/nerdtree'
@@ -19,7 +20,7 @@ Plugin 'tpope/vim-rhubarb'
 Plugin 'mbbill/code_complete'
 Plugin 'godlygeek/tabular'
 Plugin 'inkarkat/vim-ingo-library'
-Plugin 'inkarkat/vim-mark'
+Plugin 'ims0/vim-mark'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 "{lua
@@ -217,6 +218,9 @@ set termencoding=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,utf-8,chinese,cp936
 
+let g:win_colorscheme_path=$VIMRUNTIME."/colors/Tomorrow-Night.vim"
+let g:colorscheme_path=$HOME."/.vim/bundle/vim-mark/plugin/imscolo.vim"
+
 if has("gui_running")
     "vim的菜单乱码解决：
     source $VIMRUNTIME/delmenu.vim
@@ -228,18 +232,17 @@ if has("gui_running")
     set guioptions-=L
     set guioptions-=r
     set guioptions-=b
-    if filereadable(glob("$VIMRUNTIME/colors/Tomorrow-Night.vim"))
-        nnoremap <localleader>ms :vsplit $VIMRUNTIME/colors/Tomorrow-Night.vim<cr>
+    if filereadable(glob(win_colorscheme_path))
+        nnoremap <localleader>ms :exec "vsplit".win_colorscheme_path<cr>
         set guifont=Consolas:h13:cANSI
         colorscheme Tomorrow-Night
     endif
 else
-    if filereadable(glob("$VIMRUNTIME/colors/imscolo.vim"))
-        nnoremap <localleader>ms :vsplit $VIMRUNTIME/colors/imscolo.vim<cr>
-        colorscheme imscolo
+    if filereadable(glob(colorscheme_path))
+        nnoremap <localleader>ms :exec "vsplit".colorscheme_path<cr>
+        "colorscheme imscolo
     endif
 endif
-
 if has("syntax")
     syntax on
 endif
