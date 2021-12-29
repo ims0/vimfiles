@@ -124,7 +124,12 @@ git-br(){
         printf "[%s]" $branch;
     fi    
 }
-
+gitbr(){
+    local branch=`git symbolic-ref --short -q HEAD 2>/dev/null`
+    if [ $branch ];then
+        printf "%s" $branch;
+    fi    
+}
 # setting
 stty -ixon
 ulimit -c unlimited
