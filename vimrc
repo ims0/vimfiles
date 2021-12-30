@@ -102,9 +102,12 @@ nnoremap  <localleader>e :!echo <c-r>"
 nnoremap  <localleader>*  bi*<esc>ea*<esc>
 nnoremap  <localleader>ma  :set mouse=a<cr>
 nnoremap  <localleader>mv  :set mouse=v<cr>
+cnoremap  <c-a> <home>
+cnoremap  <c-e> <end>
 autocmd FileType cpp nnoremap <buffer> <localleader>/ I//<esc>
 autocmd FileType c nnoremap <buffer> <localleader>/ I//<esc>
 autocmd FileType sh nnoremap <buffer> <localleader>/ I#<esc>
+autocmd bufwritepost $HOME/.vim/vimrc source %
 "}}}
 "设置切换Buffer快捷键"
 nnoremap <C-left> :bp<CR>
@@ -148,8 +151,9 @@ let g:Lf_WildIgnore = {
 " 检出父仓库列出的commit
 " git submodule update
 
-
-
+let g:ycm_log_level = 'error'
+let g:ycm_max_diagnostics_to_display = 10
+nmap <localleader>yfw <Plug>(YCMFindSymbolInWorkspace)
 let g:ycm_show_diagnostics_ui = 1  "switch of symtax diagnostic
 "default close ycm hover
 let g:ycm_auto_hover = "" 
@@ -160,13 +164,16 @@ let g:ycm_collect_identifiers_from_tag_files = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_confirm_extra_conf=0
 let g:ycm_complete_in_comments=0
-let g:ycm_error_symbol='>>'
+let g:ycm_error_symbol='E'
+let g:ycm_warning_symbol = 'W'
 let g:ycm_semantic_triggers = { 'c' : ['->', '.']}
-let g:ycm_key_list_select_completion = ['<Down>']
+let g:ycm_key_list_select_completion = ['<TAB>','<Down>','<C-j>']
+let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>','<C-k>']
 set completeopt=preview
 "YcmCompleter cmd
 "https://github.com/ycm-core/YouCompleteMe#goto-commands"
 nnoremap  gf :YcmCompleter GoToDefinitionElseDeclaration<cr>
+nnoremap  gr :YcmCompleter GoToReferences<cr>
 nnoremap  <localleader>dc :YcmCompleter GoToDeclaration<cr>
 nnoremap  <localleader>df :YcmCompleter GoToDefinition<cr>
 nnoremap  <localleader>go :YcmCompleter GoTo<cr>
