@@ -104,6 +104,14 @@ nnoremap  <localleader>ma  :set mouse=a<cr>
 nnoremap  <localleader>mv  :set mouse=v<cr>
 cnoremap  <c-a> <home>
 cnoremap  <c-e> <end>
+
+"{{{ map ctags,NerdTree:F10,F12
+nnoremap <F10>  :TrinityToggleTagList<CR>
+nnoremap <localleader>9  :TrinityToggleTagList<CR>
+nnoremap <F12>  :TrinityToggleNERDTree<CR>
+nnoremap <localleader>0  :TrinityToggleNERDTree<CR>
+"}}}
+
 autocmd FileType cpp nnoremap <buffer> <localleader>/ I//<esc>
 autocmd FileType c nnoremap <buffer> <localleader>/ I//<esc>
 autocmd FileType sh nnoremap <buffer> <localleader>/ I#<esc>
@@ -313,15 +321,6 @@ inoremap ' ''<ESC>i
 "}
 
 
-
-"{{{ map ctags,srcExpl,NerdTree:F9,F10,F12
-    " Open and close the taglist.vim separately
-    nnoremap <F9>  :TrinityToggleTagList<CR>
-    " Open and close the srcexpl.vim separately
-    nnoremap <F10> :TrinityToggleSourceExplorer<CR>
-    " Open and close the NERD_tree.vim separately
-    nnoremap <F12>  :TrinityToggleNERDTree<CR>
-"}}}
 
 "
 "term gdb debug{
